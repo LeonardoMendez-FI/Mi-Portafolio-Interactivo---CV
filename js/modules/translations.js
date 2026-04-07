@@ -222,7 +222,7 @@ const translations = {
 let currentLang = 'es';
 
 // Configuración EmailJS
-const EMAILJS_USER_ID = "LNwegLC69TiSjQWXW";
+const EMAILJS_USER_ID = "PMzO83rsu-P6T1ytI";
 const EMAILJS_SERVICE_ID = "service_f8c68qc";
 const EMAILJS_TEMPLATE_ID = "template_ybj0tno";
 

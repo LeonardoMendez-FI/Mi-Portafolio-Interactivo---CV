@@ -53,7 +53,10 @@
 
     function setupContactForm() {
         const contactForm = document.getElementById('contactForm');
-        if (!contactForm) return;
+        if (!contactForm) {
+            console.error('❌ Formulario de contacto no encontrado');
+            return;
+        }
         
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         
@@ -63,6 +66,8 @@
             const nombre = document.getElementById('nombre')?.value || '';
             const email = document.getElementById('email')?.value || '';
             const mensaje = document.getElementById('mensaje')?.value || '';
+            
+            console.log('📝 Intentando enviar formulario...', { nombre, email });
             
             if (!nombre || !email || !mensaje) {
                 alert(window.currentLang === 'es' ? '⚠️ Completa todos los campos.' : '⚠️ Fill all fields.');
@@ -81,6 +86,11 @@
             }
             
             try {
+                // Verificar que EmailJS esté disponible
+                if (typeof emailjs === 'undefined') {
+                    throw new Error('EmailJS no está cargado');
+                }
+                
                 const templateParams = {
                     to_email: window.emailContacto,
                     from_name: nombre,
@@ -89,11 +99,15 @@
                     reply_to: email
                 };
                 
+                console.log('📧 Enviando con parámetros:', templateParams);
+                
                 const response = await emailjs.send(
                     window.EMAILJS_SERVICE_ID,
                     window.EMAILJS_TEMPLATE_ID,
                     templateParams
                 );
+                
+                console.log('✅ Respuesta de EmailJS:', response);
                 
                 if (response.status === 200) {
                     alert(window.currentLang === 'es' 
@@ -101,13 +115,13 @@
                         : `✅ Thank you ${nombre}! Message sent.`);
                     contactForm.reset();
                 } else {
-                    throw new Error('Error');
+                    throw new Error('Error en la respuesta');
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Error detallado:', error);
                 alert(window.currentLang === 'es' 
-                    ? '❌ Error al enviar. Intenta nuevamente.'
-                    : '❌ Error sending. Try again.');
+                    ? '❌ Error al enviar. Intenta nuevamente.\nVerifica la consola para más detalles.'
+                    : '❌ Error sending. Try again.\nCheck console for details.');
             } finally {
                 if (submitBtn) {
                     submitBtn.textContent = originalText;
@@ -119,6 +133,7 @@
 
     // Inicializar cuando los componentes estén cargados
     document.addEventListener('componentsLoaded', () => {
+        console.log('🔧 Inicializando módulo de contacto...');
         setupContactReveal();
         setupGitHub();
         setupContactForm();

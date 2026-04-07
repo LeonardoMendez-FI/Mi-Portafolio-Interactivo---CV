@@ -1,18 +1,31 @@
 // Módulo del menú de navegación y secciones
 (function() {
     function setupMenu() {
+        console.log('📋 Configurando menú...');
+        
         const menuToggle = document.getElementById('menuToggle');
         const sectionsMenu = document.getElementById('sectionsMenu');
         const closeMenu = document.querySelector('.close-menu');
         
-        if (menuToggle && sectionsMenu) {
-            menuToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                sectionsMenu.classList.toggle('show');
-            });
+        if (!menuToggle) {
+            console.error('❌ Botón menuToggle no encontrado');
+            return;
         }
         
-        if (closeMenu && sectionsMenu) {
+        if (!sectionsMenu) {
+            console.error('❌ sectionsMenu no encontrado');
+            return;
+        }
+        
+        // Abrir menú
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sectionsMenu.classList.toggle('show');
+            console.log('📂 Menú toggled:', sectionsMenu.classList.contains('show'));
+        });
+        
+        // Cerrar menú con botón X
+        if (closeMenu) {
             closeMenu.addEventListener('click', () => {
                 sectionsMenu.classList.remove('show');
             });
@@ -50,13 +63,23 @@
     }
 
     function setupLanguageToggle() {
+        console.log('🌐 Configurando cambio de idioma...');
+        
         const langToggle = document.getElementById('langToggle');
-        if (langToggle) {
-            langToggle.addEventListener('click', () => {
-                const newLang = window.currentLang === 'es' ? 'en' : 'es';
-                changeLanguage(newLang);
-            });
+        if (!langToggle) {
+            console.error('❌ Botón langToggle no encontrado');
+            return;
         }
+        
+        langToggle.addEventListener('click', () => {
+            const newLang = window.currentLang === 'es' ? 'en' : 'es';
+            console.log('🔄 Cambiando idioma a:', newLang);
+            if (typeof window.changeLanguage === 'function') {
+                window.changeLanguage(newLang);
+            } else {
+                console.error('❌ function changeLanguage no está definida');
+            }
+        });
     }
 
     function updateTooltips() {
@@ -91,9 +114,17 @@
     }
 
     function changeLanguage(lang) {
+        console.log('🌎 Ejecutando changeLanguage a:', lang);
+        
         window.currentLang = lang;
         const t = window.translations[lang];
         
+        if (!t) {
+            console.error('❌ Traducciones no encontradas para:', lang);
+            return;
+        }
+        
+        // Actualizar todos los elementos con data-key
         document.querySelectorAll('[data-key]').forEach(element => {
             const key = element.getAttribute('data-key');
             if (t[key]) {
@@ -138,16 +169,30 @@
         if (mensajeTextarea) mensajeTextarea.placeholder = lang === 'es' ? 'Mensaje' : 'Message';
         
         updateTooltips();
+        console.log('✅ Idioma cambiado a:', lang);
     }
 
     // Exponer funciones globalmente
     window.changeLanguage = changeLanguage;
     window.updateTooltips = updateTooltips;
 
+    // Esperar a que los componentes carguen
     document.addEventListener('componentsLoaded', () => {
+        console.log('🎯 Inicializando módulo de menú...');
         setupMenu();
         setupLanguageToggle();
         updateTooltips();
         changeLanguage('es');
     });
+    
+    // Si ya hay componentes cargados
+    if (document.querySelector('.modern-header')) {
+        console.log('🎯 Componentes ya cargados, inicializando...');
+        setTimeout(() => {
+            setupMenu();
+            setupLanguageToggle();
+            updateTooltips();
+            changeLanguage('es');
+        }, 100);
+    }
 })();
