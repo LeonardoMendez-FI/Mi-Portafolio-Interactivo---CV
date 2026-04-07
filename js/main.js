@@ -4,8 +4,8 @@ const telefonoContacto = "+52 55 2285 9195";
 const githubURL = "https://github.com/LeonardoMendez-FI";
 
 // ==================== CONFIGURACIÓN EMAILJS ====================
-const EMAILJS_USER_ID = "LNwegLC69TiSjQWXW";
-const EMAILJS_SERVICE_ID = "service_f8c68qc";
+const EMAILJS_USER_ID = "PMzO83rsu-P6T1ytI";
+const EMAILJS_SERVICE_ID = "service_f8c68qc"; 
 const EMAILJS_TEMPLATE_ID = "template_ybj0tno";
 
 // ==================== TRADUCCIONES ====================
@@ -106,6 +106,7 @@ const translations = {
         course4_1: "Manejo de entradas/salidas digitales y analógicas.",
         course4_2: "Sensores (ultrasonido, infrarrojos, temperatura) y actuadores.",
         course4_3: "Desarrollo de proyectos: semáforo, detector de objetos, sirena de policías.",
+        // Tooltips
         tooltipEmail: "Mostrar email",
         tooltipPhone: "Mostrar teléfono",
         tooltipGithub: "Abrir GitHub",
@@ -212,6 +213,7 @@ const translations = {
         course4_1: "Management of digital and analog inputs/outputs.",
         course4_2: "Sensors (ultrasonic, infrared, temperature) and actuators.",
         course4_3: "Project development: traffic light, object detector, police siren.",
+        // Tooltips
         tooltipEmail: "Show email",
         tooltipPhone: "Show phone",
         tooltipGithub: "Open GitHub",
@@ -226,96 +228,136 @@ const translations = {
 
 let currentLang = 'es';
 
-// ==================== INICIALIZACIÓN ====================
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Inicializando CV Interactivo...');
+// Cargar EmailJS
+const script = document.createElement('script');
+script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js";
+script.onload = () => {
+    emailjs.init(EMAILJS_USER_ID);
+};
+document.head.appendChild(script);
+
+// Función para actualizar tooltips
+function updateTooltips() {
+    const t = translations[currentLang];
     
-    // 1. Inicializar EmailJS
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init(EMAILJS_USER_ID);
-        console.log('✅ EmailJS inicializado');
-    } else {
-        console.error('❌ EmailJS no cargó');
+    // Botones de navegación
+    const themeBtn = document.getElementById('themeToggle');
+    const langBtn = document.getElementById('langToggle');
+    const downloadBtn = document.getElementById('downloadPDF');
+    const menuBtn = document.getElementById('menuToggle');
+    
+    if (themeBtn) themeBtn.setAttribute('data-tooltip', t.tooltipTheme);
+    if (langBtn) langBtn.setAttribute('data-tooltip', t.tooltipLang);
+    if (downloadBtn) downloadBtn.setAttribute('data-tooltip', t.tooltipDownload);
+    if (menuBtn) menuBtn.setAttribute('data-tooltip', t.tooltipMenu);
+    
+    // Contacto wrappers
+    const emailWrapper = document.querySelector('.contact-icon-wrapper[data-type="email"]');
+    const phoneWrapper = document.querySelector('.contact-icon-wrapper[data-type="phone"]');
+    const githubWrapper = document.querySelector('.contact-icon-wrapper:last-child');
+    
+    if (emailWrapper) emailWrapper.setAttribute('data-tooltip', t.tooltipEmail);
+    if (phoneWrapper) phoneWrapper.setAttribute('data-tooltip', t.tooltipPhone);
+    if (githubWrapper) githubWrapper.setAttribute('data-tooltip', t.tooltipGithub);
+    
+    // Botones de ver y github en proyectos
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.setAttribute('data-tooltip', t.tooltipView);
+    });
+    
+    document.querySelectorAll('.github-link').forEach(btn => {
+        btn.setAttribute('data-tooltip', t.tooltipLink);
+    });
+}
+
+// Función para mostrar/ocultar información de contacto
+function setupContactReveal() {
+    const emailWrapper = document.querySelector('.contact-icon-wrapper[data-type="email"]');
+    const phoneWrapper = document.querySelector('.contact-icon-wrapper[data-type="phone"]');
+    const emailValueDiv = document.getElementById('emailValueItem');
+    const phoneValueDiv = document.getElementById('phoneValueItem');
+    
+    let emailVisible = false;
+    let phoneVisible = false;
+    
+    if (emailWrapper && emailValueDiv) {
+        emailWrapper.addEventListener('click', () => {
+            if (!emailVisible) {
+                emailValueDiv.textContent = emailContacto;
+                emailValueDiv.classList.add('show');
+                emailVisible = true;
+            } else {
+                emailValueDiv.classList.remove('show');
+                setTimeout(() => {
+                    emailValueDiv.textContent = '';
+                }, 300);
+                emailVisible = false;
+            }
+        });
     }
     
-    // 2. Configurar modo oscuro
-    setupTheme();
-    
-    // 3. Configurar menú de secciones
-    setupMenu();
-    
-    // 4. Configurar cambio de idioma
-    setupLanguage();
-    
-    // 5. Configurar galerías
-    setupGalleries();
-    
-    // 6. Configurar contacto (mostrar email/teléfono)
-    setupContactReveal();
-    
-    // 7. Configurar GitHub
-    setupGitHub();
-    
-    // 8. Configurar formulario de contacto
-    setupContactForm();
-    
-    // 9. Configurar PDF
-    setupPDFDownload();
-    
-    // 10. Actualizar tooltips
-    updateTooltips();
-    
-    // 11. Establecer idioma inicial
-    changeLanguage('es');
-    
-    console.log('✅ Inicialización completa');
-});
-
-// ==================== FUNCIONES ====================
-
-function setupTheme() {
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            themeToggle.textContent = '☀️';
-        }
-        
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            themeToggle.textContent = isDark ? '☀️' : '🌙';
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    if (phoneWrapper && phoneValueDiv) {
+        phoneWrapper.addEventListener('click', () => {
+            if (!phoneVisible) {
+                phoneValueDiv.textContent = telefonoContacto;
+                phoneValueDiv.classList.add('show');
+                phoneVisible = true;
+            } else {
+                phoneValueDiv.classList.remove('show');
+                setTimeout(() => {
+                    phoneValueDiv.textContent = '';
+                }, 300);
+                phoneVisible = false;
+            }
         });
     }
 }
 
+// Configurar GitHub
+function setupGitHub() {
+    const githubBtn = document.getElementById('githubBtn');
+    if (githubBtn) {
+        githubBtn.addEventListener('click', () => {
+            window.open(githubURL, '_blank');
+        });
+    }
+}
+
+// Modo oscuro/claro
+function setupThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+    }
+}
+
+// Menú de secciones
 function setupMenu() {
     const menuToggle = document.getElementById('menuToggle');
     const sectionsMenu = document.getElementById('sectionsMenu');
     const closeMenu = document.querySelector('.close-menu');
     
-    if (menuToggle && sectionsMenu) {
-        menuToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
             sectionsMenu.classList.toggle('show');
-        });
-        
-        if (closeMenu) {
-            closeMenu.addEventListener('click', () => {
-                sectionsMenu.classList.remove('show');
-            });
-        }
-        
-        document.addEventListener('click', (e) => {
-            if (!sectionsMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-                sectionsMenu.classList.remove('show');
-            }
         });
     }
     
-    // Navegación suave
+    if (closeMenu) {
+        closeMenu.addEventListener('click', () => {
+            sectionsMenu.classList.remove('show');
+        });
+    }
+    
+    document.addEventListener('click', (e) => {
+        if (sectionsMenu && !sectionsMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+            sectionsMenu.classList.remove('show');
+        }
+    });
+    
     document.querySelectorAll('.menu-item').forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
@@ -323,13 +365,14 @@ function setupMenu() {
             const section = document.getElementById(sectionId);
             if (section) {
                 section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                if (sectionsMenu) sectionsMenu.classList.remove('show');
+                sectionsMenu.classList.remove('show');
             }
         });
     });
 }
 
-function setupLanguage() {
+// Configurar cambio de idioma
+function setupLanguageToggle() {
     const langToggle = document.getElementById('langToggle');
     if (langToggle) {
         langToggle.addEventListener('click', () => {
@@ -356,189 +399,198 @@ function changeLanguage(lang) {
         }
     });
     
-    // Actualizar idiomas
+    // Actualizar idiomas en la sección de idiomas
     const spanishLangSpan = document.querySelector('.language-item:first-child .language-info span:first-child');
     const englishLangSpan = document.querySelector('.language-item:last-child .language-info span:first-child');
-    if (spanishLangSpan) spanishLangSpan.innerHTML = lang === 'es' ? '🐆 Español' : '🐆 Spanish';
-    if (englishLangSpan) englishLangSpan.innerHTML = lang === 'es' ? '🦅 Inglés' : '🦅 English';
     
+    if (spanishLangSpan) {
+        spanishLangSpan.innerHTML = lang === 'es' ? '🐆 Español' : '🐆 Spanish';
+    }
+    if (englishLangSpan) {
+        englishLangSpan.innerHTML = lang === 'es' ? '🦅 Inglés' : '🦅 English';
+    }
+    
+    // Actualizar niveles de idiomas
     const spanishLevelSpan = document.querySelector('.language-item:first-child .language-info span:last-child');
     const englishLevelSpan = document.querySelector('.language-item:last-child .language-info span:last-child');
+    
     if (spanishLevelSpan) spanishLevelSpan.innerHTML = t.spanishLevel;
     if (englishLevelSpan) englishLevelSpan.innerHTML = t.englishLevel;
     
+    // Actualizar botón de idioma
     const langBtn = document.getElementById('langToggle');
-    if (langBtn) langBtn.innerHTML = lang === 'es' ? '🦅' : '🐆';
+    if (langBtn) {
+        langBtn.innerHTML = lang === 'es' ? '🦅' : '🐆';
+    }
     
+    // Actualizar tooltips
+    updateTooltips();
+    
+    // Actualizar placeholders
     const nombreInput = document.getElementById('nombre');
     const emailInput = document.getElementById('email');
     const mensajeTextarea = document.getElementById('mensaje');
+    
     if (nombreInput) nombreInput.placeholder = lang === 'es' ? 'Nombre completo' : 'Full name';
     if (emailInput) emailInput.placeholder = lang === 'es' ? 'Correo electrónico' : 'Email';
     if (mensajeTextarea) mensajeTextarea.placeholder = lang === 'es' ? 'Mensaje' : 'Message';
-    
-    updateTooltips();
 }
 
-function updateTooltips() {
-    const t = translations[currentLang];
-    
-    const themeBtn = document.getElementById('themeToggle');
-    const langBtn = document.getElementById('langToggle');
+// Descargar PDF
+function setupPDFDownload() {
     const downloadBtn = document.getElementById('downloadPDF');
-    const menuBtn = document.getElementById('menuToggle');
-    
-    if (themeBtn) themeBtn.setAttribute('data-tooltip', t.tooltipTheme);
-    if (langBtn) langBtn.setAttribute('data-tooltip', t.tooltipLang);
-    if (downloadBtn) downloadBtn.setAttribute('data-tooltip', t.tooltipDownload);
-    if (menuBtn) menuBtn.setAttribute('data-tooltip', t.tooltipMenu);
-    
-    const emailWrapper = document.querySelector('.contact-icon-wrapper[data-type="email"]');
-    const phoneWrapper = document.querySelector('.contact-icon-wrapper[data-type="phone"]');
-    if (emailWrapper) emailWrapper.setAttribute('data-tooltip', t.tooltipEmail);
-    if (phoneWrapper) phoneWrapper.setAttribute('data-tooltip', t.tooltipPhone);
-    
-    document.querySelectorAll('.view-btn').forEach(btn => btn.setAttribute('data-tooltip', t.tooltipView));
-    document.querySelectorAll('.github-link').forEach(btn => btn.setAttribute('data-tooltip', t.tooltipLink));
-}
-
-function setupContactReveal() {
-    const emailWrapper = document.querySelector('.contact-icon-wrapper[data-type="email"]');
-    const phoneWrapper = document.querySelector('.contact-icon-wrapper[data-type="phone"]');
-    const emailValueDiv = document.getElementById('emailValueItem');
-    const phoneValueDiv = document.getElementById('phoneValueItem');
-    
-    let emailVisible = false, phoneVisible = false;
-    
-    if (emailWrapper && emailValueDiv) {
-        emailWrapper.addEventListener('click', () => {
-            if (!emailVisible) {
-                emailValueDiv.textContent = emailContacto;
-                emailValueDiv.classList.add('show');
-                emailVisible = true;
-            } else {
-                emailValueDiv.classList.remove('show');
-                setTimeout(() => { emailValueDiv.textContent = ''; }, 300);
-                emailVisible = false;
-            }
-        });
-    }
-    
-    if (phoneWrapper && phoneValueDiv) {
-        phoneWrapper.addEventListener('click', () => {
-            if (!phoneVisible) {
-                phoneValueDiv.textContent = telefonoContacto;
-                phoneValueDiv.classList.add('show');
-                phoneVisible = true;
-            } else {
-                phoneValueDiv.classList.remove('show');
-                setTimeout(() => { phoneValueDiv.textContent = ''; }, 300);
-                phoneVisible = false;
+    if (downloadBtn) {
+        const cvContent = document.getElementById('cvContent');
+        
+        downloadBtn.addEventListener('click', async () => {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            
+            const opt = {
+                margin: [0.5, 0.5, 0.5, 0.5],
+                filename: currentLang === 'es' ? 'CV_Leonardo_Mendez_Lopez.pdf' : 'CV_Leonardo_Mendez_Lopez_EN.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            
+            const originalText = downloadBtn.textContent;
+            downloadBtn.textContent = '⏳';
+            downloadBtn.disabled = true;
+            
+            try {
+                if (isDarkMode) {
+                    document.body.classList.remove('dark-mode');
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+                
+                await html2pdf().set(opt).from(cvContent).save();
+                
+                if (isDarkMode) {
+                    document.body.classList.add('dark-mode');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(currentLang === 'es' ? '❌ Error al generar el PDF' : '❌ Error generating PDF');
+            } finally {
+                downloadBtn.textContent = originalText;
+                downloadBtn.disabled = false;
             }
         });
     }
 }
 
-function setupGitHub() {
-    const githubBtn = document.getElementById('githubBtn');
-    if (githubBtn) {
-        githubBtn.addEventListener('click', () => window.open(githubURL, '_blank'));
-    }
-}
-
+// Formulario de contacto
 function setupContactForm() {
     const contactForm = document.getElementById('contactForm');
-    if (!contactForm) return;
+    const submitBtn = contactForm?.querySelector('button[type="submit"]');
     
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const nombre = document.getElementById('nombre')?.value || '';
-        const email = document.getElementById('email')?.value || '';
-        const mensaje = document.getElementById('mensaje')?.value || '';
-        
-        if (!nombre || !email || !mensaje) {
-            alert(currentLang === 'es' ? '⚠️ Completa todos los campos.' : '⚠️ Fill all fields.');
-            return;
-        }
-        
-        if (!email.includes('@')) {
-            alert(currentLang === 'es' ? '⚠️ Email válido.' : '⚠️ Valid email.');
-            return;
-        }
-        
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn?.textContent || '';
-        if (submitBtn) {
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const mensaje = document.getElementById('mensaje').value;
+            
+            if (!nombre || !email || !mensaje) {
+                alert(currentLang === 'es' ? '⚠️ Completa todos los campos.' : '⚠️ Fill all fields.');
+                return;
+            }
+            
+            if (!email.includes('@') || !email.includes('.')) {
+                alert(currentLang === 'es' ? '⚠️ Email válido.' : '⚠️ Valid email.');
+                return;
+            }
+            
+            const originalText = submitBtn.textContent;
             submitBtn.textContent = currentLang === 'es' ? '⏳ Enviando...' : '⏳ Sending...';
             submitBtn.disabled = true;
-        }
-        
-        try {
-            const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-                to_email: emailContacto,
-                from_name: nombre,
-                from_email: email,
-                message: mensaje
-            });
             
-            if (response.status === 200) {
-                alert(currentLang === 'es' ? `✅ ¡Gracias ${nombre}! Mensaje enviado.` : `✅ Thank you ${nombre}! Message sent.`);
-                contactForm.reset();
-            } else {
-                throw new Error('Error');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert(currentLang === 'es' ? '❌ Error al enviar. Intenta nuevamente.' : '❌ Error sending. Try again.');
-        } finally {
-            if (submitBtn) {
+            try {
+                const templateParams = {
+                    to_email: emailContacto,
+                    from_name: nombre,
+                    from_email: email,
+                    message: mensaje,
+                    reply_to: email
+                };
+                
+                const response = await emailjs.send(
+                    EMAILJS_SERVICE_ID,
+                    EMAILJS_TEMPLATE_ID,
+                    templateParams
+                );
+                
+                if (response.status === 200) {
+                    alert(currentLang === 'es' 
+                        ? `✅ ¡Gracias ${nombre}! Mensaje enviado.`
+                        : `✅ Thank you ${nombre}! Message sent.`);
+                    contactForm.reset();
+                } else {
+                    throw new Error('Error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(currentLang === 'es' 
+                    ? '❌ Error al enviar. Intenta nuevamente.'
+                    : '❌ Error sending. Try again.');
+            } finally {
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             }
-        }
-    });
+        });
+    }
 }
 
+// Galerías
 function setupGalleries() {
     document.querySelectorAll('.view-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const targetId = btn.getAttribute('data-target');
             const gallery = document.getElementById(targetId);
-            if (gallery) gallery.classList.add('show');
+            if (gallery) {
+                gallery.classList.add('show');
+            }
         });
     });
     
     document.querySelectorAll('.close-gallery').forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
             const gallery = closeBtn.closest('.image-gallery');
-            if (gallery) gallery.classList.remove('show');
+            if (gallery) {
+                gallery.classList.remove('show');
+            }
         });
     });
 }
 
-function setupPDFDownload() {
-    const downloadBtn = document.getElementById('downloadPDF');
-    if (downloadBtn && document.getElementById('cvContent')) {
-        downloadBtn.addEventListener('click', async () => {
-            const element = document.getElementById('cvContent');
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            
-            if (isDarkMode) document.body.classList.remove('dark-mode');
-            
-            try {
-                await html2pdf().set({
-                    margin: 0.5,
-                    filename: currentLang === 'es' ? 'CV_Leonardo_Mendez.pdf' : 'CV_Leonardo_Mendez_EN.pdf',
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                }).from(element).save();
-            } catch (error) {
-                console.error('Error PDF:', error);
-            }
-            
-            if (isDarkMode) document.body.classList.add('dark-mode');
-        });
+// Añadir footer
+function addFooter() {
+    const container = document.querySelector('.container');
+    if (container && !document.querySelector('.footer')) {
+        const footer = document.createElement('div');
+        footer.className = 'footer';
+        footer.innerHTML = `
+            <p>© ${new Date().getFullYear()} Leonardo Octavio Méndez López - Ingeniería Mecatrónica, FI UNAM</p>
+            <p style="font-size: 11px; margin-top: 8px;">Diseño y desarrollo por Leonardo Méndez</p>
+        `;
+        container.appendChild(footer);
     }
 }
+
+// Inicializar
+document.addEventListener('DOMContentLoaded', () => {
+    setupContactReveal();
+    setupGitHub();
+    setupThemeToggle();
+    setupMenu();
+    setupLanguageToggle();
+    setupPDFDownload();
+    setupContactForm();
+    setupGalleries();
+    updateTooltips();
+    changeLanguage('es');
+    addFooter();
+    
+    console.log('%c✨ CV Leonardo Méndez ✨', 'color: #e76f51; font-size: 14px; font-weight: bold;');
+});
