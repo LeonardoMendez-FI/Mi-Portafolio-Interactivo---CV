@@ -1,0 +1,31 @@
+/* Este archivo importa todos los demás CSS */
+@import 'variables.css';
+@import 'components/navbar.css';
+@import 'components/header.css';
+@import 'components/cards.css';
+@import 'components/tools.css';
+@import 'components/responsive.css';
+
+/* Estilos adicionales generales */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--border-light);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-blue);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-orange);
+}
+
+::selection {
+    background: var(--accent-blue);
+    color: white;
+}
