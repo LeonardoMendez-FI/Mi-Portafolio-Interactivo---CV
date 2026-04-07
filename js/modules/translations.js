@@ -3,7 +3,7 @@ const emailContacto = "leonardo.mendez.fi@gmail.com";
 const telefonoContacto = "+52 55 2285 9195";
 const githubURL = "https://github.com/LeonardoMendez-FI";
 
-// ==================== TRADUCCIONES COMPLETAS ====================
+// ==================== TRADUCCIONES ====================
 const translations = {
     es: {
         name: "MÉNDEZ LÓPEZ<br>LEONARDO OCTAVIO",
@@ -221,17 +221,89 @@ const translations = {
 
 let currentLang = 'es';
 
-// Configuración EmailJS
-const EMAILJS_USER_ID = "PMzO83rsu-P6T1ytI";
-const EMAILJS_SERVICE_ID = "service_f8c68qc";
-const EMAILJS_TEMPLATE_ID = "template_ybj0tno";
+function changeLanguage(lang) {
+    currentLang = lang;
+    const t = translations[lang];
+    
+    document.querySelectorAll('[data-key]').forEach(element => {
+        const key = element.getAttribute('data-key');
+        if (t[key]) {
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = t[key];
+            } else if (element.tagName === 'BUTTON' && key === 'sendBtn') {
+                element.innerHTML = t[key];
+            } else {
+                element.innerHTML = t[key];
+            }
+        }
+    });
+    
+    // Actualizar idiomas en la sección de idiomas
+    const spanishLangSpan = document.querySelector('.language-item:first-child .language-info span:first-child');
+    const englishLangSpan = document.querySelector('.language-item:last-child .language-info span:first-child');
+    
+    if (spanishLangSpan) {
+        spanishLangSpan.innerHTML = lang === 'es' ? '🐆 Español' : '🐆 Spanish';
+    }
+    if (englishLangSpan) {
+        englishLangSpan.innerHTML = lang === 'es' ? '🦅 Inglés' : '🦅 English';
+    }
+    
+    // Actualizar niveles de idiomas
+    const spanishLevelSpan = document.querySelector('.language-item:first-child .language-info span:last-child');
+    const englishLevelSpan = document.querySelector('.language-item:last-child .language-info span:last-child');
+    
+    if (spanishLevelSpan) spanishLevelSpan.innerHTML = t.spanishLevel;
+    if (englishLevelSpan) englishLevelSpan.innerHTML = t.englishLevel;
+    
+    // Actualizar tooltips
+    updateTooltips();
+    
+    // Actualizar placeholders
+    const nombreInput = document.getElementById('nombre');
+    const emailInput = document.getElementById('email');
+    const mensajeTextarea = document.getElementById('mensaje');
+    
+    if (nombreInput) nombreInput.placeholder = lang === 'es' ? 'Nombre completo' : 'Full name';
+    if (emailInput) emailInput.placeholder = lang === 'es' ? 'Correo electrónico' : 'Email';
+    if (mensajeTextarea) mensajeTextarea.placeholder = lang === 'es' ? 'Mensaje' : 'Message';
+}
 
-// Exportar para uso en otros módulos (disponible globalmente)
+function updateTooltips() {
+    const t = translations[currentLang];
+    
+    const themeBtn = document.getElementById('themeToggle');
+    const langBtn = document.getElementById('langToggle');
+    const downloadBtn = document.getElementById('downloadPDF');
+    const menuBtn = document.getElementById('menuToggle');
+    
+    if (themeBtn) themeBtn.setAttribute('data-tooltip', t.tooltipTheme);
+    if (langBtn) langBtn.setAttribute('data-tooltip', t.tooltipLang);
+    if (downloadBtn) downloadBtn.setAttribute('data-tooltip', t.tooltipDownload);
+    if (menuBtn) menuBtn.setAttribute('data-tooltip', t.tooltipMenu);
+    
+    const emailWrapper = document.querySelector('.contact-icon-wrapper[data-type="email"]');
+    const phoneWrapper = document.querySelector('.contact-icon-wrapper[data-type="phone"]');
+    const githubWrapper = document.querySelector('.contact-icon-wrapper:last-child');
+    
+    if (emailWrapper) emailWrapper.setAttribute('data-tooltip', t.tooltipEmail);
+    if (phoneWrapper) phoneWrapper.setAttribute('data-tooltip', t.tooltipPhone);
+    if (githubWrapper) githubWrapper.setAttribute('data-tooltip', t.tooltipGithub);
+    
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.setAttribute('data-tooltip', t.tooltipView);
+    });
+    
+    document.querySelectorAll('.github-link').forEach(btn => {
+        btn.setAttribute('data-tooltip', t.tooltipLink);
+    });
+}
+
+// Exportar para uso en otros módulos
 window.emailContacto = emailContacto;
 window.telefonoContacto = telefonoContacto;
 window.githubURL = githubURL;
 window.translations = translations;
 window.currentLang = currentLang;
-window.EMAILJS_USER_ID = EMAILJS_USER_ID;
-window.EMAILJS_SERVICE_ID = EMAILJS_SERVICE_ID;
-window.EMAILJS_TEMPLATE_ID = EMAILJS_TEMPLATE_ID;
+window.changeLanguage = changeLanguage;
+window.updateTooltips = updateTooltips;
