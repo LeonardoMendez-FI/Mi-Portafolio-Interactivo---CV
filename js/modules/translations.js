@@ -221,10 +221,12 @@ const translations = {
 
 let currentLang = 'es';
 
+// Función principal para cambiar idioma
 function changeLanguage(lang) {
     currentLang = lang;
     const t = translations[lang];
     
+    // Cambiar todos los elementos con data-key
     document.querySelectorAll('[data-key]').forEach(element => {
         const key = element.getAttribute('data-key');
         if (t[key]) {
@@ -238,15 +240,15 @@ function changeLanguage(lang) {
         }
     });
     
-    // Actualizar idiomas en la sección de idiomas
-    const spanishLangSpan = document.querySelector('.language-item:first-child .language-info span:first-child');
-    const englishLangSpan = document.querySelector('.language-item:last-child .language-info span:first-child');
+    // Actualizar los textos de los idiomas en la barra
+    const spanishTextSpan = document.querySelector('.language-item:first-child .language-info span:first-child');
+    const englishTextSpan = document.querySelector('.language-item:last-child .language-info span:first-child');
     
-    if (spanishLangSpan) {
-        spanishLangSpan.innerHTML = lang === 'es' ? '🐆 Español' : '🐆 Spanish';
+    if (spanishTextSpan) {
+        spanishTextSpan.innerHTML = lang === 'es' ? '🐆 Español' : '🐆 Spanish';
     }
-    if (englishLangSpan) {
-        englishLangSpan.innerHTML = lang === 'es' ? '🦅 Inglés' : '🦅 English';
+    if (englishTextSpan) {
+        englishTextSpan.innerHTML = lang === 'es' ? '🦅 Inglés' : '🦅 English';
     }
     
     // Actualizar niveles de idiomas
@@ -259,7 +261,7 @@ function changeLanguage(lang) {
     // Actualizar tooltips
     updateTooltips();
     
-    // Actualizar placeholders
+    // Actualizar placeholder del formulario
     const nombreInput = document.getElementById('nombre');
     const emailInput = document.getElementById('email');
     const mensajeTextarea = document.getElementById('mensaje');
@@ -267,8 +269,19 @@ function changeLanguage(lang) {
     if (nombreInput) nombreInput.placeholder = lang === 'es' ? 'Nombre completo' : 'Full name';
     if (emailInput) emailInput.placeholder = lang === 'es' ? 'Correo electrónico' : 'Email';
     if (mensajeTextarea) mensajeTextarea.placeholder = lang === 'es' ? 'Mensaje' : 'Message';
+    
+    // Cambiar el ícono del botón de idioma
+    const langBtn = document.getElementById('langToggle');
+    if (langBtn) {
+        langBtn.innerHTML = lang === 'es' ? '🇺🇸' : '🇪🇸';
+        langBtn.setAttribute('data-tooltip', lang === 'es' ? 'English' : 'Español');
+    }
+    
+    // Guardar preferencia en localStorage
+    localStorage.setItem('language', lang);
 }
 
+// Actualizar tooltips
 function updateTooltips() {
     const t = translations[currentLang];
     
@@ -299,7 +312,18 @@ function updateTooltips() {
     });
 }
 
-// Exportar para uso en otros módulos
+// Configurar el botón de cambio de idioma
+function setupLanguageToggle() {
+    const langToggle = document.getElementById('langToggle');
+    if (langToggle) {
+        langToggle.addEventListener('click', () => {
+            const newLang = currentLang === 'es' ? 'en' : 'es';
+            changeLanguage(newLang);
+        });
+    }
+}
+
+// Exportar para uso global (para que otras funciones puedan acceder)
 window.emailContacto = emailContacto;
 window.telefonoContacto = telefonoContacto;
 window.githubURL = githubURL;
@@ -307,3 +331,18 @@ window.translations = translations;
 window.currentLang = currentLang;
 window.changeLanguage = changeLanguage;
 window.updateTooltips = updateTooltips;
+window.setupLanguageToggle = setupLanguageToggle;
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    // Cargar idioma guardado
+    const savedLang = localStorage.getItem('language');
+    if (savedLang && (savedLang === 'es' || savedLang === 'en')) {
+        changeLanguage(savedLang);
+    } else {
+        changeLanguage('es');
+    }
+    
+    // Configurar el botón de idioma
+    setupLanguageToggle();
+});
