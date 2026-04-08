@@ -9,20 +9,27 @@ document.addEventListener('componentsLoaded', () => {
     setupGitHub();
     setupThemeToggle();
     setupMenu();
-    setupPDFDownload();
+    setupPDFDownload();  // <-- Esta es la función nueva
     setupContactForm();
     setupGalleries();
     
-    // Inicializar idioma (español por defecto)
-    changeLanguage('es');
+    // Inicializar cambio de idioma
+    if (typeof setupLanguageToggle === 'function') {
+        setupLanguageToggle();
+    }
     
-    // Actualizar tooltips
-    updateTooltips();
+    // Cargar idioma guardado
+    const savedLang = localStorage.getItem('language');
+    if (savedLang === 'en') {
+        changeLanguage('en');
+    } else {
+        changeLanguage('es');
+    }
     
     console.log('🚀 CV Interactivo - Leonardo Méndez');
 });
 
-// Si los componentes ya están cargados antes de que se agregue el listener
+// Si los componentes ya están cargados
 if (document.getElementById('navbar-placeholder')?.innerHTML) {
     const event = new CustomEvent('componentsLoaded');
     document.dispatchEvent(event);

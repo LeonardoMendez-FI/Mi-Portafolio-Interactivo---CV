@@ -270,10 +270,11 @@ function changeLanguage(lang) {
     if (emailInput) emailInput.placeholder = lang === 'es' ? 'Correo electrónico' : 'Email';
     if (mensajeTextarea) mensajeTextarea.placeholder = lang === 'es' ? 'Mensaje' : 'Message';
     
+    //=== 'es' ? '🦅' : '🐆';
     // Cambiar el ícono del botón de idioma
     const langBtn = document.getElementById('langToggle');
     if (langBtn) {
-        langBtn.innerHTML = lang === 'es' ? '🦅' : '🐆';
+        langBtn.innerHTML = lang === 'es' ? '🇺🇸' : '🇪🇸';
         langBtn.setAttribute('data-tooltip', lang === 'es' ? 'English' : 'Español');
     }
     
