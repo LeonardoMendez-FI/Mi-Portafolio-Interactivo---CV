@@ -1,8 +1,36 @@
-// ==================== GENERACIÓN DE PDF PROFESIONAL ====================
+// ==================== GENERACIÓN DE QR EN TIEMPO REAL ====================
 
-function generateProfessionalPDF() {
+// Función para obtener la URL del portafolio actual
+function getPortfolioURL() {
+    // Detecta automáticamente la URL actual
+    const currentUrl = window.location.href;
+    
+    // Si estás en localhost, usa un placeholder o la URL de GitHub Pages
+    if (currentUrl.includes('localhost') || currentUrl.includes('127.0.0.1')) {
+        // Reemplaza con tu URL real de GitHub Pages
+        return 'https://leonardomendez-fi.github.io/Mi-Portafolio-Interactivo---CV/';
+    }
+    
+    return currentUrl;
+}
+
+// Función para generar QR usando API gratuita (QuickChart)
+async function generateQRCodeURL(data, size = 150) {
+    // Usamos QuickChart.io - API gratuita sin necesidad de API key
+    const encodedData = encodeURIComponent(data);
+    return `https://quickchart.io/qr?text=${encodedData}&size=${size}&margin=2&ecLevel=H`;
+}
+
+// Función para crear el HTML del PDF con QR
+async function generateProfessionalPDF() {
     const isEnglish = window.currentLang === 'en';
     const t = window.translations[window.currentLang];
+    
+    // Obtener URL del portafolio
+    const portfolioURL = getPortfolioURL();
+    
+    // Generar QR (esperar a que se genere)
+    const qrCodeURL = await generateQRCodeURL(portfolioURL, 120);
     
     // Obtener datos actuales del CV
     const cvData = {
@@ -11,6 +39,7 @@ function generateProfessionalPDF() {
         email: window.emailContacto,
         phone: window.telefonoContacto,
         github: window.githubURL,
+        portfolioURL: portfolioURL,
         profile: t.profileText,
         skills: [
             t.skill1, t.skill2, t.skill3, t.skill4, t.skill5, t.skill6
@@ -141,18 +170,49 @@ function generateProfessionalPDF() {
                     border-bottom: 3px solid #2c7da0;
                 }
                 
-                .pdf-header h1 {
+                .header-main {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                }
+                
+                .header-text {
+                    flex: 1;
+                    text-align: center;
+                }
+                
+                .header-text h1 {
                     font-size: 32px;
                     color: #1a1a2e;
                     margin-bottom: 5px;
                     letter-spacing: 1px;
                 }
                 
-                .pdf-header h2 {
+                .header-text h2 {
                     font-size: 18px;
                     color: #e76f51;
                     font-weight: 500;
-                    margin-bottom: 15px;
+                }
+                
+                .qr-code {
+                    flex-shrink: 0;
+                    text-align: center;
+                }
+                
+                .qr-code img {
+                    width: 90px;
+                    height: 90px;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 8px;
+                    padding: 5px;
+                }
+                
+                .qr-code p {
+                    font-size: 9px;
+                    color: #636e72;
+                    margin-top: 5px;
                 }
                 
                 .contact-row {
@@ -300,6 +360,13 @@ function generateProfessionalPDF() {
                     border-top: 1px solid #e0e0e0;
                 }
                 
+                .portfolio-link {
+                    text-align: center;
+                    margin-top: 10px;
+                    font-size: 10px;
+                    color: #2c7da0;
+                }
+                
                 @media print {
                     body {
                         padding: 0;
@@ -313,10 +380,18 @@ function generateProfessionalPDF() {
         </head>
         <body>
             <div class="cv-container">
-                <!-- Header -->
+                <!-- Header con QR -->
                 <div class="pdf-header">
-                    <h1>${cvData.name}</h1>
-                    <h2>${cvData.title}</h2>
+                    <div class="header-main">
+                        <div class="header-text">
+                            <h1>${cvData.name}</h1>
+                            <h2>${cvData.title}</h2>
+                        </div>
+                        <div class="qr-code">
+                            <img src="${qrCodeURL}" alt="Portfolio QR Code">
+                            <p>${isEnglish ? 'Scan to view portfolio' : 'Escanea para ver portafolio'}</p>
+                        </div>
+                    </div>
                     <div class="contact-row">
                         <span>📧 ${cvData.email}</span>
                         <span>📱 ${cvData.phone}</span>
@@ -436,7 +511,10 @@ async function downloadProfessionalPDF() {
     }
     
     try {
-        const pdfHTML = generateProfessionalPDF();
+        // Mostrar mensaje de generación
+        console.log('Generando PDF con QR incluido...');
+        
+        const pdfHTML = await generateProfessionalPDF();
         
         // Crear un elemento temporal para generar el PDF
         const element = document.createElement('div');
@@ -449,7 +527,7 @@ async function downloadProfessionalPDF() {
                 ? `CV_Leonardo_Mendez_${new Date().toISOString().split('T')[0]}.pdf`
                 : `CV_Leonardo_Mendez_${new Date().toISOString().split('T')[0]}_EN.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, logging: false },
+            html2canvas: { scale: 2, logging: false, useCORS: true },
             jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
         
@@ -490,3 +568,5 @@ function setupPDFDownload() {
 window.generateProfessionalPDF = generateProfessionalPDF;
 window.downloadProfessionalPDF = downloadProfessionalPDF;
 window.setupPDFDownload = setupPDFDownload;
+window.getPortfolioURL = getPortfolioURL;
+window.generateQRCodeURL = generateQRCodeURL;
