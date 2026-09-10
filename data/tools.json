@@ -1,0 +1,67 @@
+[
+  {
+    "visible": true,
+    "name": "TIA Portal",
+    "icon": "https://cdn.simpleicons.org/siemens/009999"
+  },
+  {
+    "visible": true,
+    "name": "Python",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+  },
+  {
+    "visible": true,
+    "name": "C/C++",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
+  },
+  {
+    "visible": true,
+    "name": "ESP32",
+    "icon": "https://cdn.simpleicons.org/espressif/E7352C"
+  },
+  {
+    "visible": true,
+    "name": "Arduino",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg"
+  },
+  {
+    "visible": true,
+    "name": "OpenCV",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg"
+  },
+  {
+    "visible": true,
+    "name": "Git",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+  },
+  {
+    "visible": true,
+    "name": "Unity",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg"
+  },
+  {
+    "visible": true,
+    "name": "Godot",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/godot/godot-original.svg"
+  },
+  {
+    "visible": true,
+    "name": "PySide6 / Qt",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/qt/qt-original.svg"
+  },
+  {
+    "visible": true,
+    "name": "HTML5",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+  },
+  {
+    "visible": true,
+    "name": "CSS3",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+  },
+  {
+    "visible": true,
+    "name": "JavaScript",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+  }
+]

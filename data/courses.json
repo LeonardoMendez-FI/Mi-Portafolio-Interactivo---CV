@@ -1,0 +1,140 @@
+[
+  {
+    "id": "global-game-jam-2026",
+    "visible": true,
+    "title": {
+      "es": "Global Game Jam 2026",
+      "en": "Global Game Jam 2026"
+    },
+    "date": {
+      "es": "ENAC | 2026",
+      "en": "ENAC | 2026"
+    },
+    "technologies": [],
+    "items": [
+      {
+        "es": "Participación en una Game Jam de una semana con temática \"Máscaras\".",
+        "en": "Participation in a week-long Game Jam with a \"Masks\" theme."
+      },
+      {
+        "es": "Desarrollo de un videojuego en equipo multidisciplinario.",
+        "en": "Development of a video game in a multidisciplinary team."
+      },
+      {
+        "es": "Trabajo colaborativo bajo restricciones de tiempo y resolución rápida de problemas.",
+        "en": "Collaborative work under time constraints and rapid problem solving."
+      }
+    ],
+    "mediaFolder": "assets/courses/global-game-jam-2026/",
+    "gallery": [
+      "cover.svg"
+    ],
+    "links": {
+      "certificate": ""
+    }
+  },
+  {
+    "id": "talent-land-2026",
+    "visible": true,
+    "title": {
+      "es": "Talent Land 2026",
+      "en": "Talent Land 2026"
+    },
+    "date": {
+      "es": "CDMX | 2026",
+      "en": "Mexico City | 2026"
+    },
+    "technologies": [],
+    "items": [
+      {
+        "es": "Participación en talleres y conferencias sobre inteligencia artificial, hardware, sistemas embebidos y robótica.",
+        "en": "Participation in workshops and conferences on artificial intelligence, hardware, embedded systems, and robotics."
+      },
+      {
+        "es": "Talleres prácticos relacionados con ESP32-C6/Zigbee, Edge Impulse y agentes autónomos.",
+        "en": "Hands-on workshops related to ESP32-C6/Zigbee, Edge Impulse, and autonomous agents."
+      },
+      {
+        "es": "Interacción con estudiantes, desarrolladores y profesionales del sector tecnológico.",
+        "en": "Interaction with students, developers, and technology-sector professionals."
+      }
+    ],
+    "mediaFolder": "assets/courses/talent-land-2026/",
+    "gallery": [
+      "cover.svg"
+    ],
+    "links": {
+      "certificate": ""
+    }
+  },
+  {
+    "id": "sumo-robots",
+    "visible": true,
+    "title": {
+      "es": "Competencia de Robótica - Sumo de Robots",
+      "en": "Robotics Competition - Robot Sumo"
+    },
+    "date": {
+      "es": "Preparatoria 4, UNAM y Facultad de Ingeniería UNAM | 2024",
+      "en": "Preparatory School 4, UNAM and Faculty of Engineering, UNAM | 2024"
+    },
+    "technologies": [],
+    "items": [
+      {
+        "es": "Construcción y programación de robot autónomo para competencia.",
+        "en": "Construction and programming of an autonomous robot for competition."
+      },
+      {
+        "es": "Diseño mecánico con centro de gravedad bajo y tracción optimizada.",
+        "en": "Mechanical design with low center of gravity and optimized traction."
+      },
+      {
+        "es": "Programación de lógica de control con sensores infrarrojos.",
+        "en": "Control logic programming with infrared sensors."
+      }
+    ],
+    "mediaFolder": "assets/courses/sumo-robots/",
+    "gallery": [
+      "cover.svg"
+    ],
+    "links": {
+      "certificate": ""
+    }
+  },
+  {
+    "id": "curso-arduino-aract",
+    "visible": true,
+    "title": {
+      "es": "Curso Básico de Robótica con Arduino",
+      "en": "Basic Robotics with Arduino Course"
+    },
+    "date": {
+      "es": "Asociación de Robótica Aplicada y Ciencias de la Tecnología (ARACT) | 2026",
+      "en": "Applied Robotics and Technology Sciences Association (ARACT) | 2026"
+    },
+    "technologies": [
+      "Arduino"
+    ],
+    "items": [
+      {
+        "es": "Manejo de entradas y salidas digitales y analógicas.",
+        "en": "Use of digital and analog inputs and outputs."
+      },
+      {
+        "es": "Integración de sensores y actuadores.",
+        "en": "Integration of sensors and actuators."
+      },
+      {
+        "es": "Desarrollo de ejercicios y sistemas básicos de control mediante Arduino.",
+        "en": "Development of exercises and basic control systems using Arduino."
+      }
+    ],
+    "mediaFolder": "assets/courses/curso-arduino-aract/",
+    "gallery": [
+      "cover.svg"
+    ],
+    "links": {
+      "certificate": ""
+    }
+  }
+]

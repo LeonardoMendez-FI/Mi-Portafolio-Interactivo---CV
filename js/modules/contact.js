@@ -1,128 +1,33 @@
-// Configurar EmailJS
-const EMAILJS_USER_ID = "PMzO83rsu-P6T1ytI";
-const EMAILJS_SERVICE_ID = "service_f8c68qc";
-const EMAILJS_TEMPLATE_ID = "template_ybj0tno";
+function setupContact(data, lang) {
+  const ui = data.ui[lang] || data.ui.es;
+  const contact = data.personal.contact || {};
+  const emailWrapper = document.querySelector('.contact-icon-wrapper[data-type="email"]');
+  const phoneWrapper = document.querySelector('.contact-icon-wrapper[data-type="phone"]');
+  const emailValue = document.getElementById('emailValueItem');
+  const phoneValue = document.getElementById('phoneValueItem');
+  const githubBtn = document.getElementById('githubBtn');
+  if (emailWrapper && emailValue) emailWrapper.onclick = () => { emailValue.textContent = emailValue.classList.contains('show') ? '' : contact.email || ''; emailValue.classList.toggle('show'); };
+  if (phoneWrapper && phoneValue) phoneWrapper.onclick = () => { phoneValue.textContent = phoneValue.classList.contains('show') ? '' : contact.phone || ''; phoneValue.classList.toggle('show'); };
+  if (githubBtn) githubBtn.onclick = () => contact.github && window.open(contact.github, '_blank', 'noopener');
 
-// Inicializar EmailJS
-emailjs.init(EMAILJS_USER_ID);
-
-// Mostrar/ocultar información de contacto
-function setupContactReveal() {
-    const emailWrapper = document.querySelector('.contact-icon-wrapper[data-type="email"]');
-    const phoneWrapper = document.querySelector('.contact-icon-wrapper[data-type="phone"]');
-    const emailValueDiv = document.getElementById('emailValueItem');
-    const phoneValueDiv = document.getElementById('phoneValueItem');
-    
-    let emailVisible = false;
-    let phoneVisible = false;
-    
-    if (emailWrapper && emailValueDiv) {
-        emailWrapper.addEventListener('click', () => {
-            if (!emailVisible) {
-                emailValueDiv.textContent = window.emailContacto;
-                emailValueDiv.classList.add('show');
-                emailVisible = true;
-            } else {
-                emailValueDiv.classList.remove('show');
-                setTimeout(() => {
-                    emailValueDiv.textContent = '';
-                }, 300);
-                emailVisible = false;
-            }
-        });
-    }
-    
-    if (phoneWrapper && phoneValueDiv) {
-        phoneWrapper.addEventListener('click', () => {
-            if (!phoneVisible) {
-                phoneValueDiv.textContent = window.telefonoContacto;
-                phoneValueDiv.classList.add('show');
-                phoneVisible = true;
-            } else {
-                phoneValueDiv.classList.remove('show');
-                setTimeout(() => {
-                    phoneValueDiv.textContent = '';
-                }, 300);
-                phoneVisible = false;
-            }
-        });
-    }
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  form.onsubmit = async event => {
+    event.preventDefault();
+    const name = form.nombre.value.trim(), email = form.email.value.trim(), message = form.mensaje.value.trim();
+    if (!name || !email || !message) return alert(ui.formRequired);
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return alert(ui.formInvalidEmail);
+    const button = form.querySelector('button[type="submit"]'), original = button.innerHTML;
+    button.disabled = true; button.textContent = ui.sending;
+    try {
+      const cfg = data.config?.emailjs;
+      if (!cfg?.enabled || !window.emailjs) throw new Error('EmailJS desactivado o no disponible');
+      emailjs.init(cfg.publicKey);
+      const response = await emailjs.send(cfg.serviceId, cfg.templateId, {to_email: contact.email, from_name: name, from_email: email, message, reply_to: email});
+      if (response.status && response.status >= 300) throw new Error(`EmailJS status ${response.status}`);
+      alert(ui.formSuccess); form.reset();
+    } catch (error) { console.error(error); alert(ui.formError); }
+    finally { button.disabled = false; button.innerHTML = original; }
+  };
 }
-
-// Configurar GitHub
-function setupGitHub() {
-    const githubBtn = document.getElementById('githubBtn');
-    if (githubBtn) {
-        githubBtn.addEventListener('click', () => {
-            window.open(window.githubURL, '_blank');
-        });
-    }
-}
-
-// Formulario de contacto
-function setupContactForm() {
-    const contactForm = document.getElementById('contactForm');
-    if (!contactForm) return;
-    
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const nombre = document.getElementById('nombre').value;
-        const email = document.getElementById('email').value;
-        const mensaje = document.getElementById('mensaje').value;
-        
-        if (!nombre || !email || !mensaje) {
-            alert(window.currentLang === 'es' ? '⚠️ Completa todos los campos.' : '⚠️ Fill all fields.');
-            return;
-        }
-        
-        if (!email.includes('@') || !email.includes('.')) {
-            alert(window.currentLang === 'es' ? '⚠️ Email válido.' : '⚠️ Valid email.');
-            return;
-        }
-        
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = window.currentLang === 'es' ? '⏳ Enviando...' : '⏳ Sending...';
-        submitBtn.disabled = true;
-        
-        try {
-            const templateParams = {
-                to_email: window.emailContacto,
-                from_name: nombre,
-                from_email: email,
-                message: mensaje,
-                reply_to: email
-            };
-            
-            const response = await emailjs.send(
-                EMAILJS_SERVICE_ID,
-                EMAILJS_TEMPLATE_ID,
-                templateParams
-            );
-            
-            if (response.status === 200) {
-                alert(window.currentLang === 'es' 
-                    ? `✅ ¡Gracias ${nombre}! Mensaje enviado.`
-                    : `✅ Thank you ${nombre}! Message sent.`);
-                contactForm.reset();
-            } else {
-                throw new Error('Error');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert(window.currentLang === 'es' 
-                ? '❌ Error al enviar. Intenta nuevamente.'
-                : '❌ Error sending. Try again.');
-        } finally {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }
-    });
-}
-
-// Exportar funciones
-window.setupContactReveal = setupContactReveal;
-window.setupGitHub = setupGitHub;
-window.setupContactForm = setupContactForm;
+window.setupContact = setupContact;

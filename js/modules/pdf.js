@@ -1,572 +1,459 @@
-// ==================== GENERACIÓN DE QR EN TIEMPO REAL ====================
+// PDF profesional reconstruido a partir de /data.
+// No imprime la pagina web: crea un CV independiente con formato carta y QR al portafolio.
 
-// Función para obtener la URL del portafolio actual
-function getPortfolioURL() {
-    // Detecta automáticamente la URL actual
-    const currentUrl = window.location.href;
-    
-    // Si estás en localhost, usa un placeholder o la URL de GitHub Pages
-    if (currentUrl.includes('localhost') || currentUrl.includes('127.0.0.1')) {
-        // Reemplaza con tu URL real de GitHub Pages
-        return 'https://leonardomendez-fi.github.io/Mi-Portafolio-Interactivo---CV/';
-    }
-    
-    return currentUrl;
+function pdfLoc(value, lang) {
+  if (value == null) return '';
+  if (typeof value === 'string' || typeof value === 'number') return String(value);
+  return value[lang] ?? value.es ?? value.en ?? '';
 }
 
-// Función para generar QR usando API gratuita (QuickChart)
-async function generateQRCodeURL(data, size = 150) {
-    // Usamos QuickChart.io - API gratuita sin necesidad de API key
-    const encodedData = encodeURIComponent(data);
-    return `https://quickchart.io/qr?text=${encodedData}&size=${size}&margin=2&ecLevel=H`;
+function pdfVisible(items) {
+  return (items || []).filter(item => item.visible !== false && item.pdfVisible !== false);
 }
 
-// Función para crear el HTML del PDF con QR
-async function generateProfessionalPDF() {
-    const isEnglish = window.currentLang === 'en';
-    const t = window.translations[window.currentLang];
-    
-    // Obtener URL del portafolio
-    const portfolioURL = getPortfolioURL();
-    
-    // Generar QR (esperar a que se genere)
-    const qrCodeURL = await generateQRCodeURL(portfolioURL, 120);
-    
-    // Obtener datos actuales del CV
-    const cvData = {
-        name: "Leonardo Octavio Méndez López",
-        title: isEnglish ? "Mechatronics Engineering Student" : "Estudiante de Ingeniería Mecatrónica",
-        email: window.emailContacto,
-        phone: window.telefonoContacto,
-        github: window.githubURL,
-        portfolioURL: portfolioURL,
-        profile: t.profileText,
-        skills: [
-            t.skill1, t.skill2, t.skill3, t.skill4, t.skill5, t.skill6
-        ],
-        languages: [
-            { name: isEnglish ? "Spanish" : "Español", level: isEnglish ? "Native" : "Nativo" },
-            { name: isEnglish ? "English" : "Inglés", level: isEnglish ? "Upper-Intermediate (B2)" : "Intermedio-Avanzado (B2)" }
-        ],
-        education: [
-            { title: t.edu1Title, institution: "FI UNAM", date: "2024 - Present", description: isEnglish ? "6th Semester" : "6to Semestre" },
-            { title: t.edu2Title, institution: "ENP 9 UNAM", date: "2022 - 2024", description: isEnglish ? "Graduation in process" : "Titulación en proceso" },
-            { title: t.edu3Title, institution: "ENP 9 UNAM", date: "2021 - 2024", description: "" }
-        ],
-        experience: [
-            {
-                title: t.exp1Title,
-                company: "Facultad de Filosofía y Letras, UNAM",
-                date: isEnglish ? "June 2024 - December 2024" : "Junio 2024 - Diciembre 2024",
-                achievements: [t.exp1_1, t.exp1_2, t.exp1_3],
-                tech: ["Canva", "InShot", "Photoshop"]
-            }
-        ],
-        projects: [
-            {
-                title: t.proj1Title,
-                date: "2024",
-                description: isEnglish ? "Functional text-to-Braille translator implemented in C, demonstrating problem-solving with limited resources." : "Traductor texto-Braille funcional implementado en C, demostrando capacidad de resolución de problemas con recursos limitados.",
-                tech: ["C"]
-            },
-            {
-                title: t.proj2Title,
-                date: "2026 - " + (isEnglish ? "In Development" : "En desarrollo"),
-                description: isEnglish ? "Unity development with ESP32 communication for haptic feedback vest, integrated with Google Cardboard VR." : "Desarrollo en Unity con comunicación ESP32 para chaleco de retroalimentación háptica, integrado con VR Cardboard.",
-                tech: ["Unity", "Arduino", "ESP32", "C++"]
-            },
-            {
-                title: t.proj3Title,
-                date: "2026 - " + (isEnglish ? "In Development" : "En desarrollo"),
-                description: isEnglish ? "Self-taught game development with Godot Engine, implementing game mechanics and 3D model integration." : "Desarrollo autodidacta con Godot Engine, implementando mecánicas de juego e integración de modelos 3D.",
-                tech: ["Godot", "GDScript", "Blender"]
-            },
-            {
-                title: t.proj4Title,
-                date: "2025 - " + (isEnglish ? "In Development" : "En desarrollo"),
-                description: isEnglish ? "Virtual board game migrated from Python to Godot Engine, implementing turn logic and complete rules." : "Juego de mesa virtual migrado de Python a Godot Engine, implementando lógica de turnos y reglas completas.",
-                tech: ["Python", "Godot", "GDScript"]
-            },
-            {
-                title: t.proj5Title,
-                date: "2025",
-                description: isEnglish ? "Arduino-based breathalyzer with MQ-3 sensor, LED indicators, and buzzer alert system." : "Alcoholímetro basado en Arduino con sensor MQ-3, indicadores LED y sistema de alerta con buzzer.",
-                tech: ["Arduino", "C++", "Electronics"]
-            },
-            {
-                title: t.proj6Title,
-                date: "2025",
-                description: isEnglish ? "Mechanical design and assembly of plastic injection machine with controlled heating system." : "Diseño mecánico y ensamble de máquina de inyección de plásticos con sistema de calentamiento controlado.",
-                tech: ["Inventor", "Mechanical Design", "Manufacturing"]
-            },
-            {
-                title: t.proj7Title,
-                date: "2025",
-                description: isEnglish ? "Interactive CV with dark/light mode, PDF generation, and responsive design." : "CV interactivo con modo oscuro/claro, generación de PDF y diseño responsive.",
-                tech: ["HTML5", "CSS3", "JavaScript"]
-            }
-        ],
-        courses: [
-            {
-                title: t.course1Title,
-                institution: "ENAC",
-                date: "2026",
-                description: isEnglish ? "Week-long game jam developing a complete video game in a multidisciplinary team." : "Game jam de una semana desarrollando un videojuego completo en equipo multidisciplinario."
-            },
-            {
-                title: t.course2Title,
-                institution: "CDMX",
-                date: "2026",
-                description: isEnglish ? "Attendance at workshops and conferences on video games, AI, hardware, and robotics." : "Asistencia a talleres y conferencias sobre videojuegos, IA, hardware y robótica."
-            },
-            {
-                title: t.course3Title,
-                institution: "UNAM",
-                date: "2024",
-                description: isEnglish ? "Construction and programming of autonomous robot for sumo competition with optimized design." : "Construcción y programación de robot autónomo para competencia de sumo con diseño optimizado."
-            },
-            {
-                title: t.course4Title,
-                institution: "ARACT",
-                date: "2026",
-                description: isEnglish ? "Arduino robotics course covering sensors, actuators, and project development." : "Curso de robótica con Arduino cubriendo sensores, actuadores y desarrollo de proyectos."
-            }
-        ]
-    };
-    
-    // Crear el HTML del PDF
-    const pdfHTML = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>CV_${cvData.name.replace(/ /g, '_')}</title>
-            <style>
-                * {
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                }
-                
-                body {
-                    font-family: 'Segoe UI', 'Montserrat', Arial, sans-serif;
-                    line-height: 1.5;
-                    color: #2d3436;
-                    background: white;
-                    padding: 40px;
-                }
-                
-                .cv-container {
-                    max-width: 1100px;
-                    margin: 0 auto;
-                    background: white;
-                }
-                
-                /* Header */
-                .pdf-header {
-                    text-align: center;
-                    margin-bottom: 30px;
-                    padding-bottom: 20px;
-                    border-bottom: 3px solid #2c7da0;
-                }
-                
-                .header-main {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    gap: 20px;
-                    margin-bottom: 15px;
-                }
-                
-                .header-text {
-                    flex: 1;
-                    text-align: center;
-                }
-                
-                .header-text h1 {
-                    font-size: 32px;
-                    color: #1a1a2e;
-                    margin-bottom: 5px;
-                    letter-spacing: 1px;
-                }
-                
-                .header-text h2 {
-                    font-size: 18px;
-                    color: #e76f51;
-                    font-weight: 500;
-                }
-                
-                .qr-code {
-                    flex-shrink: 0;
-                    text-align: center;
-                }
-                
-                .qr-code img {
-                    width: 90px;
-                    height: 90px;
-                    border: 1px solid #e0e0e0;
-                    border-radius: 8px;
-                    padding: 5px;
-                }
-                
-                .qr-code p {
-                    font-size: 9px;
-                    color: #636e72;
-                    margin-top: 5px;
-                }
-                
-                .contact-row {
-                    display: flex;
-                    justify-content: center;
-                    gap: 25px;
-                    flex-wrap: wrap;
-                    font-size: 13px;
-                    color: #636e72;
-                    margin-top: 10px;
-                }
-                
-                .contact-row span {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 5px;
-                }
-                
-                /* Grid layout */
-                .pdf-grid {
-                    display: grid;
-                    grid-template-columns: 1fr 2fr;
-                    gap: 30px;
-                }
-                
-                /* Left column */
-                .pdf-left h3, .pdf-right h3 {
-                    font-size: 16px;
-                    font-weight: 700;
-                    margin-bottom: 15px;
-                    padding-bottom: 8px;
-                    border-bottom: 2px solid #2c7da0;
-                    color: #2c7da0;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                }
-                
-                .section {
-                    margin-bottom: 25px;
-                }
-                
-                /* Skills */
-                .skill-item {
-                    margin-bottom: 8px;
-                    font-size: 13px;
-                    padding: 5px 0;
-                }
-                
-                /* Languages */
-                .lang-item {
-                    display: flex;
-                    justify-content: space-between;
-                    margin-bottom: 12px;
-                    font-size: 13px;
-                }
-                
-                .lang-name {
-                    font-weight: 600;
-                }
-                
-                .lang-level {
-                    color: #636e72;
-                }
-                
-                /* Education & Experience */
-                .edu-item, .exp-item, .project-item, .course-item {
-                    margin-bottom: 18px;
-                }
-                
-                .item-title {
-                    font-size: 14px;
-                    font-weight: 700;
-                    color: #e76f51;
-                    margin-bottom: 3px;
-                }
-                
-                .item-subtitle {
-                    font-size: 12px;
-                    color: #2c7da0;
-                    font-weight: 500;
-                    margin-bottom: 5px;
-                }
-                
-                .item-date {
-                    font-size: 11px;
-                    color: #8899a6;
-                    margin-bottom: 8px;
-                }
-                
-                .item-description {
-                    font-size: 12px;
-                    color: #2d3436;
-                    margin-top: 5px;
-                }
-                
-                .tech-stack {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 6px;
-                    margin: 8px 0 5px 0;
-                }
-                
-                .tech-badge {
-                    background: #e8f4f8;
-                    color: #2c7da0;
-                    padding: 2px 10px;
-                    border-radius: 12px;
-                    font-size: 10px;
-                    font-weight: 600;
-                }
-                
-                .achievement-list {
-                    list-style: none;
-                    padding-left: 0;
-                    margin-top: 5px;
-                }
-                
-                .achievement-list li {
-                    font-size: 12px;
-                    margin-bottom: 5px;
-                    padding-left: 16px;
-                    position: relative;
-                }
-                
-                .achievement-list li::before {
-                    content: "▹";
-                    position: absolute;
-                    left: 0;
-                    color: #e76f51;
-                    font-size: 11px;
-                }
-                
-                hr {
-                    margin: 15px 0;
-                    border: none;
-                    border-top: 1px solid #e0e0e0;
-                }
-                
-                .footer-pdf {
-                    margin-top: 30px;
-                    padding-top: 15px;
-                    text-align: center;
-                    font-size: 10px;
-                    color: #b2bec3;
-                    border-top: 1px solid #e0e0e0;
-                }
-                
-                .portfolio-link {
-                    text-align: center;
-                    margin-top: 10px;
-                    font-size: 10px;
-                    color: #2c7da0;
-                }
-                
-                @media print {
-                    body {
-                        padding: 0;
-                        margin: 0;
-                    }
-                    .cv-container {
-                        max-width: 100%;
-                    }
-                }
-            </style>
-        </head>
-        <body>
-            <div class="cv-container">
-                <!-- Header con QR -->
-                <div class="pdf-header">
-                    <div class="header-main">
-                        <div class="header-text">
-                            <h1>${cvData.name}</h1>
-                            <h2>${cvData.title}</h2>
-                        </div>
-                        <div class="qr-code">
-                            <img src="${qrCodeURL}" alt="Portfolio QR Code">
-                            <p>${isEnglish ? 'Scan to view portfolio' : 'Escanea para ver portafolio'}</p>
-                        </div>
-                    </div>
-                    <div class="contact-row">
-                        <span>📧 ${cvData.email}</span>
-                        <span>📱 ${cvData.phone}</span>
-                        <span>🐙 ${cvData.github.replace('https://github.com/', '')}</span>
-                    </div>
-                </div>
-                
-                <div class="pdf-grid">
-                    <!-- Columna Izquierda -->
-                    <div class="pdf-left">
-                        <!-- Perfil -->
-                        <div class="section">
-                            <h3>${isEnglish ? 'PROFILE' : 'PERFIL'}</h3>
-                            <p style="font-size: 12px; line-height: 1.5; text-align: justify;">${cvData.profile}</p>
-                        </div>
-                        
-                        <!-- Habilidades Técnicas -->
-                        <div class="section">
-                            <h3>${isEnglish ? 'TECHNICAL SKILLS' : 'HABILIDADES TÉCNICAS'}</h3>
-                            ${cvData.skills.map(skill => `<div class="skill-item">🔧 ${skill}</div>`).join('')}
-                        </div>
-                        
-                        <!-- Idiomas -->
-                        <div class="section">
-                            <h3>${isEnglish ? 'LANGUAGES' : 'IDIOMAS'}</h3>
-                            ${cvData.languages.map(lang => `
-                                <div class="lang-item">
-                                    <span class="lang-name">${lang.name}</span>
-                                    <span class="lang-level">${lang.level}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                        
-                        <!-- Educación -->
-                        <div class="section">
-                            <h3>${isEnglish ? 'EDUCATION' : 'FORMACIÓN ACADÉMICA'}</h3>
-                            ${cvData.education.map(edu => `
-                                <div class="edu-item">
-                                    <div class="item-title">${edu.title}</div>
-                                    <div class="item-subtitle">${edu.institution}</div>
-                                    <div class="item-date">${edu.date}</div>
-                                    ${edu.description ? `<div class="item-description">${edu.description}</div>` : ''}
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                    
-                    <!-- Columna Derecha -->
-                    <div class="pdf-right">
-                        <!-- Experiencia -->
-                        <div class="section">
-                            <h3>${isEnglish ? 'WORK EXPERIENCE' : 'EXPERIENCIA LABORAL'}</h3>
-                            ${cvData.experience.map(exp => `
-                                <div class="exp-item">
-                                    <div class="item-title">${exp.title}</div>
-                                    <div class="item-subtitle">${exp.company}</div>
-                                    <div class="item-date">${exp.date}</div>
-                                    <div class="tech-stack">
-                                        ${exp.tech.map(t => `<span class="tech-badge">${t}</span>`).join('')}
-                                    </div>
-                                    <ul class="achievement-list">
-                                        ${exp.achievements.map(ach => `<li>${ach}</li>`).join('')}
-                                    </ul>
-                                </div>
-                            `).join('')}
-                        </div>
-                        
-                        <!-- Proyectos Destacados -->
-                        <div class="section">
-                            <h3>${isEnglish ? 'FEATURED PROJECTS' : 'PROYECTOS DESTACADOS'}</h3>
-                            ${cvData.projects.map(proj => `
-                                <div class="project-item">
-                                    <div class="item-title">${proj.title}</div>
-                                    <div class="item-date">${proj.date}</div>
-                                    <div class="tech-stack">
-                                        ${proj.tech.map(t => `<span class="tech-badge">${t}</span>`).join('')}
-                                    </div>
-                                    <div class="item-description">${proj.description}</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                        
-                        <!-- Cursos y Eventos -->
-                        <div class="section">
-                            <h3>${isEnglish ? 'COURSES & EVENTS' : 'CURSOS Y EVENTOS'}</h3>
-                            ${cvData.courses.map(course => `
-                                <div class="course-item">
-                                    <div class="item-title">${course.title}</div>
-                                    <div class="item-subtitle">${course.institution}</div>
-                                    <div class="item-date">${course.date}</div>
-                                    <div class="item-description">${course.description}</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="footer-pdf">
-                    ${isEnglish ? 'CV generated from interactive portfolio' : 'CV generado desde portafolio interactivo'} - ${new Date().getFullYear()}
-                </div>
+function pdfEscape(value = '') {
+  return String(value).replace(/[&<>"']/g, ch => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+  }[ch]));
+}
+
+function pdfPlainName(data, lang) {
+  const explicit = pdfLoc(data.personal?.pdfName, lang);
+  if (explicit) return explicit;
+  return pdfLoc(data.personal?.name, lang).replace(/<br\s*\/?>/gi, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function getPortfolioURL(data) {
+  const configured = data?.config?.pdf?.portfolioUrl || data?.personal?.contact?.portfolio || '';
+  const current = window.location.href.split('#')[0].split('?')[0];
+  const isLocal = /^(file:)|localhost|127\.0\.0\.1/i.test(current);
+  return isLocal ? configured : (current || configured);
+}
+
+function generateQRCodeURL(value, size = 180) {
+  return `https://quickchart.io/qr?text=${encodeURIComponent(value)}&size=${size}&margin=1&ecLevel=H`;
+}
+
+async function imageUrlToDataURL(url) {
+  try {
+    const response = await fetch(url, { mode: 'cors', cache: 'no-store' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const blob = await response.blob();
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.warn('No se pudo convertir el QR a data URL; se usara la URL remota.', error);
+    return url;
+  }
+}
+
+function pdfTech(technologies = []) {
+  if (!technologies.length) return '';
+  return `<div class="pdfcv-tech">${technologies.map(t => `<span>${pdfEscape(t)}</span>`).join('')}</div>`;
+}
+
+function pdfBullets(items, lang, maxItems = 2) {
+  const selected = (items || []).slice(0, maxItems);
+  if (!selected.length) return '';
+  return `<ul class="pdfcv-list">${selected.map(item => `<li>${pdfEscape(pdfLoc(item, lang))}</li>`).join('')}</ul>`;
+}
+
+function pdfCompactDescription(item, lang) {
+  const explicit = pdfLoc(item.pdfSummary, lang);
+  if (explicit) return explicit;
+  const first = (item.items || [])[0];
+  return first ? pdfLoc(first, lang) : '';
+}
+
+function pdfExperienceItem(item, lang) {
+  return `
+    <article class="pdfcv-item pdfcv-exp-item">
+      <div class="pdfcv-item-title">${pdfEscape(pdfLoc(item.title, lang))}</div>
+      <div class="pdfcv-item-date">${pdfEscape(pdfLoc(item.date, lang))}</div>
+      ${pdfTech(item.technologies)}
+      ${pdfBullets(item.items, lang, 2)}
+    </article>`;
+}
+
+function pdfProjectItem(item, lang, detailed = false) {
+  const description = pdfCompactDescription(item, lang);
+  return `
+    <article class="pdfcv-item pdfcv-project-item">
+      <div class="pdfcv-item-title">${pdfEscape(pdfLoc(item.title, lang))}</div>
+      <div class="pdfcv-item-date">${pdfEscape(pdfLoc(item.date, lang))}</div>
+      ${pdfTech(item.technologies)}
+      ${detailed ? pdfBullets(item.items, lang, 2) : (description ? `<p class="pdfcv-description">${pdfEscape(description)}</p>` : '')}
+    </article>`;
+}
+
+function pdfCourseItem(item, lang) {
+  return `
+    <article class="pdfcv-item pdfcv-course-item">
+      <div class="pdfcv-item-title">${pdfEscape(pdfLoc(item.title, lang))}</div>
+      <div class="pdfcv-item-date">${pdfEscape(pdfLoc(item.date, lang))}</div>
+      ${pdfBullets(item.items, lang, 2)}
+    </article>`;
+}
+
+function pdfEducationItem(item, lang) {
+  return `
+    <article class="pdfcv-edu-item">
+      <div class="pdfcv-item-title">${pdfEscape(pdfLoc(item.title, lang))}</div>
+      <div class="pdfcv-subtitle">${pdfEscape(pdfLoc(item.institution, lang))}</div>
+      <div class="pdfcv-item-date">${pdfEscape(pdfLoc(item.period, lang))}</div>
+    </article>`;
+}
+
+function pdfSection(title, content, extraClass = '') {
+  if (!content) return '';
+  return `<section class="pdfcv-section ${extraClass}"><h3>${pdfEscape(title)}</h3>${content}</section>`;
+}
+
+function buildProfessionalPdfHtml(data, lang, qrCodeSrc, portfolioURL) {
+  const isEn = lang === 'en';
+  const ui = data.ui?.[lang] || data.ui?.es || {};
+  const cfg = data.config?.pdf || {};
+  const personal = data.personal || {};
+  const contact = personal.contact || {};
+
+  const projects = pdfVisible(data.projects).slice(0, Number(cfg.maxProjects) || 6);
+  const splitAt = Math.max(1, Math.min(projects.length, Number(cfg.projectsFirstPage) || 3));
+  const projectsPage1 = projects.slice(0, splitAt);
+  const projectsPage2 = projects.slice(splitAt);
+  const courses = pdfVisible(data.courses).slice(0, Number(cfg.maxCourses) || 4);
+  const experience = pdfVisible(data.experience);
+  const skills = pdfVisible(data.skills);
+  const education = pdfVisible(data.education);
+  const languages = pdfVisible(data.languages);
+  const tools = pdfVisible(data.tools);
+  const sports = pdfVisible(data.achievements?.sports);
+  const other = pdfVisible(data.achievements?.other);
+
+  const name = pdfPlainName(data, lang);
+  const title = pdfLoc(personal.pdfTitle, lang) || pdfLoc(personal.title, lang);
+  const profile = pdfLoc(personal.profile, lang);
+  const githubLabel = (contact.github || '').replace(/^https?:\/\/(www\.)?github\.com\//i, '').replace(/\/$/, '');
+
+  const skillsHtml = skills.map(s => `<div class="pdfcv-skill">${pdfEscape(pdfLoc(s.name, lang))}</div>`).join('');
+  const languagesHtml = languages.map(item => `
+    <div class="pdfcv-language"><strong>${pdfEscape(pdfLoc(item.name, lang))}</strong><span>${pdfEscape(pdfLoc(item.level, lang))}</span></div>`).join('');
+  const educationHtml = education.map(item => pdfEducationItem(item, lang)).join('');
+  const experienceHtml = experience.map(item => pdfExperienceItem(item, lang)).join('');
+  const project1Html = projectsPage1.map(item => pdfProjectItem(item, lang)).join('');
+  const project2Html = projectsPage2.map(item => pdfProjectItem(item, lang, true)).join('');
+  const coursesHtml = courses.map(item => pdfCourseItem(item, lang)).join('');
+  const toolsHtml = tools.length ? `<div class="pdfcv-tool-list">${tools.map(t => `<span>${pdfEscape(t.name)}</span>`).join('')}</div>` : '';
+  const sportsHtml = sports.map(item => `
+    <article class="pdfcv-mini-item">
+      <div class="pdfcv-item-title">${pdfEscape(pdfLoc(item.title, lang))}</div>
+      <div class="pdfcv-item-date">${pdfEscape(pdfLoc(item.date, lang))}</div>
+      ${pdfBullets(item.items, lang, 2)}
+    </article>`).join('');
+  const otherHtml = other.map(item => `
+    <article class="pdfcv-mini-item">
+      <div class="pdfcv-item-title">${pdfEscape(pdfLoc(item.title, lang))}</div>
+      <p class="pdfcv-description">${pdfEscape(pdfLoc(item.description, lang))}</p>
+    </article>`).join('');
+
+  const continuationTitle = isEn ? 'FEATURED PROJECTS - CONT.' : 'PROYECTOS DESTACADOS - CONT.';
+  const portfolioCaption = isEn ? 'Scan to view interactive portfolio' : 'Escanea para ver el portafolio interactivo';
+  const pageLabel = isEn ? 'Page' : 'Página';
+
+  return `
+    <style>
+      @page { size: Letter; margin: 0; }
+      .pdfcv-root, .pdfcv-root * { box-sizing: border-box; }
+      .pdfcv-root {
+        width: 8.5in;
+        background: #fff;
+        color: #30343b;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10.5px;
+        line-height: 1.36;
+      }
+      .pdfcv-page {
+        width: 8.5in;
+        height: 11in;
+        padding: 0.42in 0.46in 0.34in;
+        background: #fff;
+        position: relative;
+        overflow: hidden;
+        page-break-after: always;
+        break-after: page;
+      }
+      .pdfcv-page:last-child { page-break-after: auto; break-after: auto; }
+      .pdfcv-header {
+        border-bottom: 3px solid #2c7da0;
+        padding-bottom: 12px;
+        margin-bottom: 18px;
+      }
+      .pdfcv-header-main {
+        display: grid;
+        grid-template-columns: 1fr 88px;
+        gap: 18px;
+        align-items: center;
+      }
+      .pdfcv-header-text { text-align: center; padding-left: 80px; }
+      .pdfcv-name {
+        margin: 0 0 5px;
+        color: #171928;
+        font-size: 27px;
+        line-height: 1.08;
+        letter-spacing: .25px;
+        font-weight: 700;
+      }
+      .pdfcv-role {
+        margin: 0;
+        color: #df765d;
+        font-size: 15px;
+        font-weight: 500;
+      }
+      .pdfcv-qr { text-align: center; }
+      .pdfcv-qr img { width: 78px; height: 78px; display: block; margin: 0 auto; }
+      .pdfcv-qr p { font-size: 7.5px; color: #7d858c; margin: 4px 0 0; line-height: 1.15; }
+      .pdfcv-contact {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        color: #6e767d;
+        font-size: 9.5px;
+      }
+      .pdfcv-contact a { color: inherit; text-decoration: none; }
+      .pdfcv-grid {
+        display: grid;
+        grid-template-columns: 31.5% 1fr;
+        gap: 25px;
+      }
+      .pdfcv-section { margin-bottom: 18px; }
+      .pdfcv-section h3 {
+        color: #2c7da0;
+        font-size: 13px;
+        letter-spacing: 1px;
+        margin: 0 0 10px;
+        padding-bottom: 6px;
+        border-bottom: 2px solid #2c7da0;
+        text-transform: uppercase;
+      }
+      .pdfcv-profile { text-align: justify; margin: 0; font-size: 10px; }
+      .pdfcv-skill {
+        border-left: 2px solid #8abfd0;
+        padding: 2px 0 2px 7px;
+        margin: 0 0 6px;
+        font-size: 9.7px;
+      }
+      .pdfcv-language { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
+      .pdfcv-language span { color: #7b8288; text-align: right; }
+      .pdfcv-edu-item, .pdfcv-mini-item { margin-bottom: 13px; }
+      .pdfcv-item { margin-bottom: 13px; break-inside: avoid; page-break-inside: avoid; }
+      .pdfcv-item-title { color: #df765d; font-size: 11.5px; font-weight: 700; line-height: 1.2; margin-bottom: 3px; }
+      .pdfcv-subtitle { color: #2c7da0; font-size: 9.8px; font-weight: 600; margin-bottom: 2px; }
+      .pdfcv-item-date { color: #90979d; font-size: 9px; margin-bottom: 4px; }
+      .pdfcv-description { margin: 4px 0 0; font-size: 9.7px; }
+      .pdfcv-tech { display: flex; flex-wrap: wrap; gap: 5px; margin: 5px 0; }
+      .pdfcv-tech span, .pdfcv-tool-list span {
+        background: #eaf5f8;
+        color: #317d96;
+        border-radius: 10px;
+        padding: 2px 8px;
+        font-size: 8.4px;
+        font-weight: 600;
+      }
+      .pdfcv-list { list-style: none; margin: 5px 0 0; padding: 0; }
+      .pdfcv-list li { position: relative; padding-left: 12px; margin-bottom: 3px; font-size: 9.6px; }
+      .pdfcv-list li::before { content: '›'; position: absolute; left: 1px; color: #df765d; font-weight: 700; }
+      .pdfcv-page2-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 3px solid #2c7da0;
+        padding-bottom: 9px;
+        margin-bottom: 17px;
+      }
+      .pdfcv-page2-header strong { color: #171928; font-size: 15px; }
+      .pdfcv-page2-header span { color: #7d858c; font-size: 8.5px; }
+      .pdfcv-tool-list { display: flex; flex-wrap: wrap; gap: 6px; }
+      .pdfcv-page-footer {
+        position: absolute;
+        left: 0.46in;
+        right: 0.46in;
+        bottom: 0.16in;
+        display: flex;
+        justify-content: space-between;
+        color: #a0a6ab;
+        font-size: 7.5px;
+        border-top: 1px solid #e4e7e9;
+        padding-top: 5px;
+      }
+      .pdfcv-page-footer a { color: #6f99a8; text-decoration: none; }
+    </style>
+
+    <div class="pdfcv-root">
+      <section class="pdfcv-page">
+        <header class="pdfcv-header">
+          <div class="pdfcv-header-main">
+            <div class="pdfcv-header-text">
+              <h1 class="pdfcv-name">${pdfEscape(name)}</h1>
+              <h2 class="pdfcv-role">${pdfEscape(title)}</h2>
             </div>
-        </body>
-        </html>
-    `;
-    
-    return pdfHTML;
+            <div class="pdfcv-qr">
+              <a href="${pdfEscape(portfolioURL)}"><img crossorigin="anonymous" src="${pdfEscape(qrCodeSrc)}" alt="QR"></a>
+              <p>${portfolioCaption}</p>
+            </div>
+          </div>
+          <div class="pdfcv-contact">
+            ${contact.email ? `<a href="mailto:${pdfEscape(contact.email)}">${pdfEscape(contact.email)}</a>` : ''}
+            ${contact.phone ? `<span>${pdfEscape(contact.phone)}</span>` : ''}
+            ${contact.github ? `<a href="${pdfEscape(contact.github)}">GitHub: ${pdfEscape(githubLabel)}</a>` : ''}
+          </div>
+        </header>
+
+        <div class="pdfcv-grid">
+          <div>
+            ${pdfSection(ui.profile || (isEn ? 'PROFILE' : 'PERFIL'), `<p class="pdfcv-profile">${pdfEscape(profile)}</p>`)}
+            ${pdfSection(ui.techSkills || (isEn ? 'TECHNICAL SKILLS' : 'HABILIDADES TÉCNICAS'), skillsHtml)}
+            ${pdfSection(ui.languages || (isEn ? 'LANGUAGES' : 'IDIOMAS'), languagesHtml)}
+            ${pdfSection(ui.education || (isEn ? 'EDUCATION' : 'FORMACIÓN ACADÉMICA'), educationHtml)}
+          </div>
+          <div>
+            ${pdfSection(ui.experience || (isEn ? 'EXPERIENCE' : 'EXPERIENCIA'), experienceHtml)}
+            ${pdfSection(ui.projects || (isEn ? 'FEATURED PROJECTS' : 'PROYECTOS DESTACADOS'), project1Html)}
+          </div>
+        </div>
+
+        <footer class="pdfcv-page-footer">
+          <a href="${pdfEscape(portfolioURL)}">${pdfEscape(portfolioURL)}</a>
+          <span>${pageLabel} 1 / 2</span>
+        </footer>
+      </section>
+
+      <section class="pdfcv-page">
+        <div class="pdfcv-page2-header">
+          <strong>${pdfEscape(name)}</strong>
+          <span>${pdfEscape(title)}</span>
+        </div>
+
+        <div class="pdfcv-grid">
+          <div>
+            ${pdfSection(isEn ? 'TOOLS' : 'HERRAMIENTAS', toolsHtml)}
+            ${pdfSection(ui.sports || (isEn ? 'SPORTS ACHIEVEMENTS' : 'LOGROS DEPORTIVOS'), sportsHtml)}
+            ${pdfSection(ui.otherInfo || (isEn ? 'OTHER INFORMATION' : 'OTROS DATOS'), otherHtml)}
+          </div>
+          <div>
+            ${projectsPage2.length ? pdfSection(continuationTitle, project2Html) : ''}
+            ${pdfSection(ui.courses || (isEn ? 'COURSES & EVENTS' : 'CURSOS Y EVENTOS'), coursesHtml)}
+          </div>
+        </div>
+
+        <footer class="pdfcv-page-footer">
+          <span>${isEn ? 'Interactive portfolio available through the QR code' : 'Portafolio interactivo disponible mediante el código QR'}</span>
+          <span>${pageLabel} 2 / 2</span>
+        </footer>
+      </section>
+    </div>`;
 }
 
-// Función para descargar el PDF profesional
-async function downloadProfessionalPDF() {
-    const downloadBtn = document.getElementById('downloadPDF');
-    const originalText = downloadBtn?.textContent || '⬇️';
-    
-    if (downloadBtn) {
-        downloadBtn.textContent = '⏳';
-        downloadBtn.disabled = true;
-    }
-    
-    try {
-        // Mostrar mensaje de generación
-        console.log('Generando PDF con QR incluido...');
-        
-        const pdfHTML = await generateProfessionalPDF();
-        
-        // Crear un elemento temporal para generar el PDF
-        const element = document.createElement('div');
-        element.innerHTML = pdfHTML;
-        document.body.appendChild(element);
-        
-        const opt = {
-            margin: [0.5, 0.5, 0.5, 0.5],
-            filename: window.currentLang === 'es' 
-                ? `CV_Leonardo_Mendez_${new Date().toISOString().split('T')[0]}.pdf`
-                : `CV_Leonardo_Mendez_${new Date().toISOString().split('T')[0]}_EN.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, logging: false, useCORS: true },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
-        
-        await html2pdf().set(opt).from(element).save();
-        
-        // Limpiar
-        document.body.removeChild(element);
-        
-    } catch (error) {
-        console.error('Error generating PDF:', error);
-        alert(window.currentLang === 'es' 
-            ? '❌ Error al generar el CV en PDF' 
-            : '❌ Error generating PDF CV');
-    } finally {
-        if (downloadBtn) {
-            downloadBtn.textContent = originalText;
-            downloadBtn.disabled = false;
-        }
-    }
+async function waitForPdfImages(root, timeoutMs = 8000) {
+  const images = [...root.querySelectorAll('img')];
+  if (!images.length) return;
+  await Promise.all(images.map(img => {
+    if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+    return new Promise(resolve => {
+      const timeout = setTimeout(resolve, timeoutMs);
+      const done = () => { clearTimeout(timeout); resolve(); };
+      img.addEventListener('load', done, { once: true });
+      img.addEventListener('error', done, { once: true });
+    });
+  }));
 }
 
-// Configurar el botón de descarga
-function setupPDFDownload() {
-    const downloadBtn = document.getElementById('downloadPDF');
-    if (downloadBtn) {
-        // Remover event listeners anteriores si existen
-        const newBtn = downloadBtn.cloneNode(true);
-        downloadBtn.parentNode.replaceChild(newBtn, downloadBtn);
-        
-        newBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            downloadProfessionalPDF();
-        });
+async function downloadProfessionalPDF(data) {
+  if (!window.html2pdf) {
+    alert('html2pdf.js no esta disponible.');
+    return;
+  }
+
+  const button = document.getElementById('downloadPDF');
+  const original = button?.textContent || '⬇️';
+  if (button) {
+    button.textContent = '⏳';
+    button.disabled = true;
+  }
+
+  let host = null;
+  try {
+    const lang = window.PortfolioApp?.lang || 'es';
+    const portfolioURL = getPortfolioURL(data);
+    if (!portfolioURL) throw new Error('No hay una URL del portafolio configurada para generar el QR.');
+
+    const qrRemote = generateQRCodeURL(portfolioURL, 220);
+    const qrCodeSrc = await imageUrlToDataURL(qrRemote);
+    const html = buildProfessionalPdfHtml(data, lang, qrCodeSrc, portfolioURL);
+
+    host = document.createElement('div');
+    host.id = 'professional-pdf-source';
+    host.style.position = 'absolute';
+    host.style.left = '-12000px';
+    host.style.top = '0';
+    host.style.width = '8.5in';
+    host.style.background = '#fff';
+    host.innerHTML = html;
+    document.body.appendChild(host);
+
+    await waitForPdfImages(host);
+
+    const cfg = data.config?.pdf || {};
+    const date = new Date().toISOString().slice(0, 10);
+    const defaultFilename = lang === 'en' ? `CV_Leonardo_Mendez_${date}_EN.pdf` : `CV_Leonardo_Mendez_${date}.pdf`;
+    const filename = cfg.filename || defaultFilename;
+
+    await html2pdf().set({
+      margin: 0,
+      filename,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: Number(cfg.scale) || 2,
+        useCORS: true,
+        allowTaint: false,
+        logging: false,
+        backgroundColor: '#ffffff',
+        scrollX: 0,
+        scrollY: 0
+      },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+      pagebreak: { mode: ['css', 'legacy'], before: '.pdfcv-page + .pdfcv-page' },
+      enableLinks: true
+    }).from(host.querySelector('.pdfcv-root')).save();
+  } catch (error) {
+    console.error('Error al generar el PDF profesional:', error);
+    const lang = window.PortfolioApp?.lang || 'es';
+    alert(lang === 'en' ? 'The professional PDF could not be generated.' : 'No se pudo generar el PDF profesional.');
+  } finally {
+    host?.remove();
+    if (button) {
+      button.textContent = original;
+      button.disabled = false;
     }
+  }
 }
 
-// Exportar funciones
-window.generateProfessionalPDF = generateProfessionalPDF;
+function setupPdf(data) {
+  const button = document.getElementById('downloadPDF');
+  if (!button) return;
+  button.onclick = event => {
+    event.preventDefault();
+    downloadProfessionalPDF(data);
+  };
+}
+
+window.setupPdf = setupPdf;
 window.downloadProfessionalPDF = downloadProfessionalPDF;
-window.setupPDFDownload = setupPDFDownload;
+window.buildProfessionalPdfHtml = buildProfessionalPdfHtml;
 window.getPortfolioURL = getPortfolioURL;
 window.generateQRCodeURL = generateQRCodeURL;

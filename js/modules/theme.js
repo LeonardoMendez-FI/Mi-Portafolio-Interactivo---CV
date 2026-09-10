@@ -1,21 +1,15 @@
-// Modo oscuro/claro
-function setupThemeToggle() {
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) {
-        // Verificar preferencia guardada
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            themeToggle.textContent = '☀️';
-        }
-        
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            themeToggle.textContent = isDark ? '☀️' : '🌙';
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
-    }
+function setupTheme() {
+  const btn = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') document.body.classList.add('dark-mode');
+  if (btn) {
+    btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    btn.onclick = () => {
+      document.body.classList.toggle('dark-mode');
+      const dark = document.body.classList.contains('dark-mode');
+      btn.textContent = dark ? '☀️' : '🌙';
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    };
+  }
 }
-
-window.setupThemeToggle = setupThemeToggle;
+window.setupTheme = setupTheme;

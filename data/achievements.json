@@ -1,0 +1,43 @@
+{
+  "sports": [
+    {
+      "visible": true,
+      "title": {
+        "es": "Flag Football - Equipo Representativo UNAM",
+        "en": "Flag Football - UNAM Representative Team"
+      },
+      "date": "UNAM | 2024",
+      "items": [
+        {
+          "es": "Integrante del equipo oficial de flag football",
+          "en": "Member of the official flag football team"
+        },
+        {
+          "es": "Participación en torneos internos y representación institucional",
+          "en": "Participation in internal tournaments and institutional representation"
+        },
+        {
+          "es": "Desarrollo de disciplina, liderazgo y trabajo en equipo",
+          "en": "Development of discipline, leadership, and teamwork"
+        },
+        {
+          "es": "Compaginación exitosa de entrenamientos con estudios de ingeniería",
+          "en": "Successful balance of training with engineering studies"
+        }
+      ]
+    }
+  ],
+  "other": [
+    {
+      "visible": true,
+      "title": {
+        "es": "Cartilla Militar Liberada",
+        "en": "Military ID Released"
+      },
+      "description": {
+        "es": "2024 - Situación militar definida, documentación en regla",
+        "en": "2024 - Military status defined, documentation in order"
+      }
+    }
+  ]
+}

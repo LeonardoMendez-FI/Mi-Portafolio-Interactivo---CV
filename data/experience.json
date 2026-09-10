@@ -1,0 +1,77 @@
+[
+  {
+    "id": "mrg-mechatronics",
+    "visible": true,
+    "title": {
+      "es": "Servicio Social - Mechatronics Research Group (Ingeniería Mecatrónica)",
+      "en": "Social Service - Mechatronics Research Group (Mechatronics Engineering)"
+    },
+    "date": {
+      "es": "Facultad de Ingeniería, UNAM | 2026 - Presente",
+      "en": "Faculty of Engineering, UNAM | 2026 - Present"
+    },
+    "technologies": [
+      "Python",
+      "OpenCV",
+      "ArUco",
+      "NVIDIA Jetson"
+    ],
+    "items": [
+      {
+        "es": "Desarrollo de sistemas de visión por computadora aplicados a proyectos de investigación en robótica.",
+        "en": "Development of computer vision systems applied to robotics research projects."
+      },
+      {
+        "es": "Implementación de herramientas para seguimiento mediante marcadores ArUco, estimación de trayectorias y análisis de movimiento.",
+        "en": "Implementation of tools for ArUco-based tracking, trajectory estimation, and motion analysis."
+      },
+      {
+        "es": "Experimentación con plataformas NVIDIA Jetson para ejecución local de modelos y herramientas de inteligencia artificial, visión y robótica.",
+        "en": "Experimentation with NVIDIA Jetson platforms for local execution of AI, vision, and robotics models and tools."
+      },
+      {
+        "es": "Documentación técnica y presentación periódica de avances en simposios del grupo de investigación.",
+        "en": "Technical documentation and periodic presentation of progress at research group symposiums."
+      }
+    ],
+    "mediaFolder": "assets/experience/mrg-mechatronics/",
+    "gallery": [],
+    "links": {}
+  },
+  {
+    "id": "unamita",
+    "visible": true,
+    "title": {
+      "es": "Servicio Social - Programa UNAMITA (Técnico en Computación)",
+      "en": "Social Service - UNAMITA Program (Computer Technician)"
+    },
+    "date": {
+      "es": "Facultad de Filosofía y Letras, UNAM | Junio 2024 - Diciembre 2024",
+      "en": "Faculty of Philosophy and Letters, UNAM | June 2024 - December 2024"
+    },
+    "technologies": [
+      "Canva",
+      "InShot",
+      "Photoshop"
+    ],
+    "items": [
+      {
+        "es": "Diseño de infografías y videos educativos para campañas de inclusión digital.",
+        "en": "Design of infographics and educational videos for digital inclusion campaigns."
+      },
+      {
+        "es": "Participación en talleres de difusión contra la brecha digital.",
+        "en": "Participation in workshops against the digital divide."
+      },
+      {
+        "es": "Apoyo en la creación de contenido para redes sociales del programa.",
+        "en": "Support in creating content for the program's social networks."
+      }
+    ],
+    "mediaFolder": "assets/experience/unamita/",
+    "gallery": [
+      "cover.svg"
+    ],
+    "links": {}
+  }
+]

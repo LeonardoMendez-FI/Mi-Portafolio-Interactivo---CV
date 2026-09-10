@@ -1,0 +1,33 @@
+{
+  "name": {
+    "es": "MÉNDEZ LÓPEZ<br>LEONARDO OCTAVIO",
+    "en": "MÉNDEZ LÓPEZ<br>LEONARDO OCTAVIO"
+  },
+  "title": {
+    "es": "ESTUDIANTE DE INGENIERÍA MECATRÓNICA",
+    "en": "MECHATRONICS ENGINEERING STUDENT"
+  },
+  "tagline": {
+    "es": "Automatización Industrial · Programación · Sistemas Embebidos · Visión por Computadora",
+    "en": "Industrial Automation · Programming · Embedded Systems · Computer Vision"
+  },
+  "profile": {
+    "es": "Estudiante de Ingeniería Mecatrónica en la Facultad de Ingeniería de la UNAM, con interés profesional en automatización industrial e integración de sistemas, y sólidos conocimientos en programación. Cuento con experiencia en el desarrollo de soluciones que integran software, electrónica y sistemas físicos, particularmente en proyectos de visión por computadora y sistemas embebidos. Me caracterizo por buscar enfoques creativos ante problemas técnicos, aprender nuevas tecnologías y desarrollar soluciones que superen los requerimientos iniciales de los proyectos.",
+    "en": "Mechatronics Engineering student at UNAM's Faculty of Engineering, with a professional interest in industrial automation and systems integration, and solid programming knowledge. I have experience developing solutions that integrate software, electronics, and physical systems, particularly in computer vision and embedded systems projects. I am characterized by seeking creative approaches to technical problems, learning new technologies, and developing solutions that go beyond the initial project requirements."
+  },
+  "profileImage": "assets/profile/profile.svg",
+  "contact": {
+    "email": "leonardo.mendez.fi@gmail.com",
+    "phone": "+52 55 2285 9195",
+    "github": "https://github.com/LeonardoMendez-FI",
+    "portfolio": "https://leonardomendez-fi.github.io/Mi-Portafolio-Interactivo---CV/"
+  },
+  "pdfName": {
+    "es": "Leonardo Octavio Méndez López",
+    "en": "Leonardo Octavio Méndez López"
+  },
+  "pdfTitle": {
+    "es": "Estudiante de Ingeniería Mecatrónica",
+    "en": "Mechatronics Engineering Student"
+  }
+}

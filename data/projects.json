@@ -1,0 +1,268 @@
+[
+  {
+    "id": "robot-positioning-error",
+    "visible": true,
+    "title": {
+      "es": "Sistema de Medición de Error de Posicionamiento para Robot Móvil",
+      "en": "Mobile Robot Positioning Error Measurement System"
+    },
+    "date": {
+      "es": "Proyecto de investigación | 2026 | Finalizado",
+      "en": "Research Project | 2026 | Completed"
+    },
+    "technologies": [
+      "Python",
+      "OpenCV",
+      "ArUco",
+      "PySide6"
+    ],
+    "items": [
+      {
+        "es": "Desarrollo de un sistema externo para medir el error de posicionamiento de un robot móvil mediante una cámara cenital y marcadores ArUco.",
+        "en": "Development of an external system to measure the positioning error of a mobile robot using an overhead camera and ArUco markers."
+      },
+      {
+        "es": "Definición de un sistema de referencia global y registro de rutas deseadas mediante marcadores.",
+        "en": "Definition of a global reference frame and registration of desired routes using markers."
+      },
+      {
+        "es": "Captura y comparación de la trayectoria real del robot para obtener métricas de error de posicionamiento.",
+        "en": "Capture and comparison of the robot's actual trajectory to obtain positioning error metrics."
+      },
+      {
+        "es": "Desarrollo de una interfaz modular para configuración, adquisición y almacenamiento de sesiones experimentales.",
+        "en": "Development of a modular interface for configuration, acquisition, and storage of experimental sessions."
+      }
+    ],
+    "mediaFolder": "assets/projects/robot-positioning-error/",
+    "gallery": [],
+    "links": {
+      "github": "",
+      "demo": "",
+      "documentation": ""
+    }
+  },
+  {
+    "id": "hand-imitation-learning",
+    "visible": true,
+    "title": {
+      "es": "Seguimiento de Mano para Aprendizaje por Imitación",
+      "en": "Hand Tracking for Imitation Learning"
+    },
+    "date": {
+      "es": "Proyecto de investigación | 2026 - En desarrollo",
+      "en": "Research Project | 2026 - In Development"
+    },
+    "technologies": [
+      "Python",
+      "OpenCV",
+      "MediaPipe",
+      "ArUco",
+      "RealSense"
+    ],
+    "items": [
+      {
+        "es": "Desarrollo de un sistema de captura del movimiento de la mano orientado al aprendizaje por imitación de tareas de agarre.",
+        "en": "Development of a hand-motion capture system aimed at imitation learning for grasping tasks."
+      },
+      {
+        "es": "Seguimiento de landmarks de la mano y referencias ArUco para estimación de posición y orientación.",
+        "en": "Tracking of hand landmarks and ArUco references for position and orientation estimation."
+      },
+      {
+        "es": "Desarrollo de métodos para transformar información visual a referencias métricas utilizables por un sistema robótico.",
+        "en": "Development of methods to transform visual information into metric references usable by a robotic system."
+      },
+      {
+        "es": "Arquitectura modular para adquisición, seguimiento, registro y análisis de trayectorias.",
+        "en": "Modular architecture for acquisition, tracking, recording, and trajectory analysis."
+      }
+    ],
+    "mediaFolder": "assets/projects/hand-imitation-learning/",
+    "gallery": [],
+    "links": {
+      "github": "",
+      "demo": "",
+      "documentation": ""
+    }
+  },
+  {
+    "id": "haptic-vr",
+    "visible": true,
+    "title": {
+      "es": "Integración Unity + Sistema Háptico ESP32 + VR",
+      "en": "Unity + ESP32 Haptic System + VR Integration"
+    },
+    "date": {
+      "es": "Proyecto académico y personal | 2026 - En desarrollo",
+      "en": "Academic and Personal Project | 2026 - In Development"
+    },
+    "technologies": [
+      "Unity",
+      "ESP32",
+      "C/C++",
+      "VR"
+    ],
+    "items": [
+      {
+        "es": "Desarrollo de un entorno interactivo en Unity integrado con un sistema háptico basado en ESP32.",
+        "en": "Development of an interactive Unity environment integrated with an ESP32-based haptic system."
+      },
+      {
+        "es": "Comunicación inalámbrica entre Unity y el microcontrolador para control de actuadores.",
+        "en": "Wireless communication between Unity and the microcontroller for actuator control."
+      },
+      {
+        "es": "Activación localizada de motores para representar estímulos e impactos físicos.",
+        "en": "Localized motor activation to represent physical stimuli and impacts."
+      },
+      {
+        "es": "Integración con Google Cardboard para visualización en realidad virtual.",
+        "en": "Integration with Google Cardboard for virtual reality visualization."
+      }
+    ],
+    "mediaFolder": "assets/projects/haptic-vr/",
+    "gallery": [
+      "cover.svg"
+    ],
+    "links": {
+      "github": "https://github.com/LeonardoMendez-FI/UnityHapticVR_Proyect.git",
+      "demo": "",
+      "documentation": ""
+    }
+  },
+  {
+    "id": "inyeccion-plasticos",
+    "visible": true,
+    "title": {
+      "es": "Proyecto de Inyección de Plásticos",
+      "en": "Plastic Injection Project"
+    },
+    "date": {
+      "es": "Proyecto académico | Facultad de Ingeniería, UNAM | 2025",
+      "en": "Academic Project | Faculty of Engineering, UNAM | 2025"
+    },
+    "technologies": [
+      "Autodesk Inventor",
+      "Diseño Mecánico",
+      "Manufactura"
+    ],
+    "items": [
+      {
+        "es": "Diseño mecánico y ensamble de los componentes del sistema.",
+        "en": "Mechanical design and assembly of the system components."
+      },
+      {
+        "es": "Implementación de un sistema de calentamiento y mecanismo de inyección manual.",
+        "en": "Implementation of a heating system and manual injection mechanism."
+      },
+      {
+        "es": "Construcción de un prototipo funcional.",
+        "en": "Construction of a functional prototype."
+      },
+      {
+        "es": "Presentación del proyecto en exposición académica.",
+        "en": "Presentation of the project at an academic exhibition."
+      }
+    ],
+    "mediaFolder": "assets/projects/inyeccion-plasticos/",
+    "gallery": [
+      "cover.svg"
+    ],
+    "links": {
+      "github": "",
+      "demo": "",
+      "documentation": ""
+    }
+  },
+  {
+    "id": "seri",
+    "visible": true,
+    "title": {
+      "es": "Videojuego \"SERI\"",
+      "en": "\"SERI\" Video Game"
+    },
+    "date": {
+      "es": "Global Game Jam | 2026",
+      "en": "Global Game Jam | 2026"
+    },
+    "technologies": [
+      "Godot",
+      "GDScript",
+      "Blender"
+    ],
+    "items": [
+      {
+        "es": "Desarrollo de un videojuego como parte de un equipo multidisciplinario durante Global Game Jam.",
+        "en": "Development of a video game as part of a multidisciplinary team during Global Game Jam."
+      },
+      {
+        "es": "Implementación de mecánicas de juego y sistema de cinemáticas.",
+        "en": "Implementation of game mechanics and a cinematic system."
+      },
+      {
+        "es": "Creación e integración de modelos y elementos 3D.",
+        "en": "Creation and integration of 3D models and elements."
+      },
+      {
+        "es": "Desarrollo bajo restricciones de tiempo y coordinación con un equipo multidisciplinario.",
+        "en": "Development under time constraints and coordination with a multidisciplinary team."
+      }
+    ],
+    "mediaFolder": "assets/projects/seri/",
+    "gallery": [
+      "cover.svg"
+    ],
+    "links": {
+      "github": "https://github.com/LeonardoMendez-FI/GGJ---SERI-Masks-and-Traditions.git",
+      "demo": "",
+      "documentation": ""
+    }
+  },
+  {
+    "id": "cv-interactivo",
+    "visible": true,
+    "title": {
+      "es": "Portafolio / CV Interactivo",
+      "en": "Interactive Portfolio / CV"
+    },
+    "date": {
+      "es": "Proyecto personal | 2025 - Presente",
+      "en": "Personal Project | 2025 - Present"
+    },
+    "technologies": [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "JSON",
+      "GitHub"
+    ],
+    "items": [
+      {
+        "es": "Desarrollo de un portafolio web interactivo y responsivo.",
+        "en": "Development of an interactive and responsive web portfolio."
+      },
+      {
+        "es": "Arquitectura basada en datos para separar el contenido de la lógica y facilitar su actualización.",
+        "en": "Data-driven architecture that separates content from logic and simplifies updates."
+      },
+      {
+        "es": "Soporte bilingüe, modo claro/oscuro, galerías dinámicas y generación de PDF.",
+        "en": "Bilingual support, light/dark mode, dynamic galleries, and PDF generation."
+      },
+      {
+        "es": "Gestión de proyectos, experiencia, habilidades y otros contenidos mediante archivos de datos independientes.",
+        "en": "Management of projects, experience, skills, and other content through independent data files."
+      }
+    ],
+    "mediaFolder": "assets/projects/cv-interactivo/",
+    "gallery": [
+      "cover.svg"
+    ],
+    "links": {
+      "github": "https://github.com/LeonardoMendez-FI/Mi-Portafolio-Interactivo---CV.git",
+      "demo": "",
+      "documentation": ""
+    }
+  }
+]

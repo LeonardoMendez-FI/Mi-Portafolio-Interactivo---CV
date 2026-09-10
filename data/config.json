@@ -1,0 +1,16 @@
+{
+  "emailjs": {
+    "enabled": true,
+    "publicKey": "PMzO83rsu-P6T1ytI",
+    "serviceId": "service_f8c68qc",
+    "templateId": "template_ybj0tno"
+  },
+  "pdf": {
+    "filename": "Leonardo_Mendez_CV.pdf",
+    "scale": 2,
+    "portfolioUrl": "https://leonardomendez-fi.github.io/Mi-Portafolio-Interactivo---CV/",
+    "projectsFirstPage": 3,
+    "maxProjects": 6,
+    "maxCourses": 4
+  }
+}

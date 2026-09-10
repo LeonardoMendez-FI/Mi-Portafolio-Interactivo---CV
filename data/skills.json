@@ -1,0 +1,66 @@
+[
+  {
+    "visible": true,
+    "icon": "⚙️",
+    "name": {
+      "es": "Fundamentos de automatización industrial y programación de PLC",
+      "en": "Fundamentals of industrial automation and PLC programming"
+    }
+  },
+  {
+    "visible": true,
+    "icon": "💻",
+    "name": {
+      "es": "Programación y desarrollo de software",
+      "en": "Programming and software development"
+    }
+  },
+  {
+    "visible": true,
+    "icon": "🔗",
+    "name": {
+      "es": "Integración de hardware y software",
+      "en": "Hardware and software integration"
+    }
+  },
+  {
+    "visible": true,
+    "icon": "👁️",
+    "name": {
+      "es": "Visión por computadora y procesamiento de imágenes",
+      "en": "Computer vision and image processing"
+    }
+  },
+  {
+    "visible": true,
+    "icon": "🤖",
+    "name": {
+      "es": "Sistemas embebidos y microcontroladores",
+      "en": "Embedded systems and microcontrollers"
+    }
+  },
+  {
+    "visible": true,
+    "icon": "🔌",
+    "name": {
+      "es": "Soldadura e interpretación de diagramas electrónicos",
+      "en": "Electronic soldering and schematic interpretation"
+    }
+  },
+  {
+    "visible": true,
+    "icon": "📝",
+    "name": {
+      "es": "Documentación técnica y elaboración de reportes",
+      "en": "Technical documentation and report writing"
+    }
+  },
+  {
+    "visible": true,
+    "icon": "📊",
+    "name": {
+      "es": "Paquetería Office (Word, Excel y PowerPoint)",
+      "en": "Microsoft Office (Word, Excel, and PowerPoint)"
+    }
+  }
+]

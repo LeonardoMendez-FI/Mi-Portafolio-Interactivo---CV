@@ -1,0 +1,47 @@
+[
+  {
+    "visible": true,
+    "title": {
+      "es": "Ingeniería Mecatrónica",
+      "en": "Mechatronics Engineering"
+    },
+    "institution": {
+      "es": "Facultad de Ingeniería UNAM",
+      "en": "Faculty of Engineering, UNAM"
+    },
+    "period": {
+      "es": "2024 - Presente (7.º semestre)",
+      "en": "2024 - Present (7th Semester)"
+    }
+  },
+  {
+    "visible": true,
+    "title": {
+      "es": "Técnico en Computación",
+      "en": "Computer Technician"
+    },
+    "institution": {
+      "es": "ENP 9 Estudios Técnicos Especializados UNAM",
+      "en": "ENP 9 Technical Specialized Studies, UNAM"
+    },
+    "period": {
+      "es": "2022 - 2024 (Titulación en proceso)",
+      "en": "2022 - 2024 (Graduation in process)"
+    }
+  },
+  {
+    "visible": true,
+    "title": {
+      "es": "Educación Media Superior",
+      "en": "High School Education"
+    },
+    "institution": {
+      "es": "Escuela Nacional Preparatoria 9 UNAM",
+      "en": "National Preparatory School 9, UNAM"
+    },
+    "period": {
+      "es": "2021 - 2024",
+      "en": "2021 - 2024"
+    }
+  }
+]
